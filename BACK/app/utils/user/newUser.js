@@ -6,7 +6,6 @@ const bcrypt = require("bcrypt");
 const sendMail = require("../notifications/nodemailer");
 const oldPictureDelete = require("./oldPictureDelete");
 
-
 /**
  * @description - function for create a new user
  * @param {object} req - request object
@@ -16,63 +15,61 @@ const oldPictureDelete = require("./oldPictureDelete");
  * @returns {object} - return an object with the user created
  */
 const add = async (req, res, next, body) => {
-	debug("newUser OK");
-	debug("data passée dans le newUser", body);
-	debug(body.picture);
+  debug("newUser OK");
+  debug("data passée dans le newUser", body);
+  debug(body.picture);
 
-	debug(userDatamapper.getAll());
-	//req.body is the body of the request
-	const { pseudo, email, password, firstname, lastname, picture } = body;
+  const { pseudo, email, password, firstname, lastname, picture } = body;
 
-	//we check if the user already exist (use email or pseudo)
-	const Check = await userDatamapper.getAll({ email, pseudo });
-	debug("response", Check);
+  // Check if the user already exist
+  const Check = await userDatamapper.getAll({ email, pseudo });
+  debug("response", Check);
 
-	//if the user avatar is default avatar we redefiene the picture path
-	let path = body.picture;
+  //if the user avatar is default avatar we redefiene the picture path
+  let path = body.picture;
 
-	debug("path", path);
+  debug("path", path);
 
-	// if the user exist we send an error
-	if (Check.length > 0) {
-		//if user already exist we delete the picture path uploaded in the server
-		body.picture === "uploads/avatar/default.jpg"
-			? oldPictureDelete(path)
-			: oldPictureDelete(req.files.picture[0].path);
+  // if the user exist we send an error
+  if (Check.length > 0) {
+    //if user already exist we delete the picture path uploaded in the server
+    body.picture === "uploads/avatar/default.jpg"
+      ? oldPictureDelete(path)
+      : oldPictureDelete(req.files.picture[0].path);
 
-		//if the user already exist we return an error
-		const err = new badInputError("User already exist");
-		next(err);
-	}
-	// if the user doesn't exist we create it
-	// we hash the password
+    //if the user already exist we return an error
+    const err = new badInputError("User already exist");
+    next(err);
+  }
+  // if the user doesn't exist we create it
+  // we hash the password
 
-	const hashPassword = await bcrypt.hash(password, 10);
+  const hashPassword = await bcrypt.hash(password, 10);
 
-	const user = await userDatamapper.create({
-		pseudo,
-		email,
-		password: hashPassword,
-		firstname,
-		lastname,
-		picture,
-	});
+  const user = await userDatamapper.create({
+    pseudo,
+    email,
+    password: hashPassword,
+    firstname,
+    lastname,
+    picture,
+  });
 
-	const newUser = {
-		pseudo: user.pseudo,
-		email: user.email,
-		firstname: user.firstname,
-		lastname: user.lastname,
-		picture: user.picture,
-	};
+  const newUser = {
+    pseudo: user.pseudo,
+    email: user.email,
+    firstname: user.firstname,
+    lastname: user.lastname,
+    picture: user.picture,
+  };
 
-	debug(email);
-	sendMail(
-		`${email}`,
-		"nouvelle notification",
-		"FELICITATION !! Vous êtes inscrit !"
-	);
-	return newUser;
+  debug(email);
+  sendMail(
+    `${email}`,
+    "nouvelle notification",
+    "FELICITATION !! Vous êtes inscrit !"
+  );
+  return newUser;
 };
 
 /**

@@ -2,6 +2,6 @@
 
 BEGIN;
 
-DROP TABLE IF EXISTS "model_has_like", "model_has_category", "comment", "category", "model", "user", "authors", "jokes";
+DROP TABLE IF EXISTS "model_has_like", "model_has_category", "comment", "category", "model", "user";
 
 COMMIT;

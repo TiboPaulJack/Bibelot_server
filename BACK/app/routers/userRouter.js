@@ -16,18 +16,13 @@ const router = express.Router();
 
 const userController = require("../controllers/userController.js");
 
-
 const handlerController = require("../controllers/handlerController");
 const validator = require("../utils/validation/middlewareValidationUser");
 const schema = require("../utils/validation/schema");
 const errorHandler = require("../utils/errorControl/errorHandler");
 const multer = require("multer");
 const bufferStorage = require("../utils/multer/bufferStorage");
-const upload = require ("../utils/multer/multerConfig")();
-
-
-
-
+const upload = require("../utils/multer/multerConfig")();
 
 /**
  * @description - middleware for check the token
@@ -51,12 +46,8 @@ const tokenCheck = require("../utils/user/tokenCheck");
  */
 router.post(
   "/add",
-  upload.fields([
-    { name: "picture" },
-  ]),
+  upload.fields([{ name: "picture" }]),
   validator(schema.user_create),
-
-
   handlerController(userController.create.bind(userController))
 );
 
@@ -82,7 +73,6 @@ router.post("/signin", userController.signin.bind(userController));
  */
 router.post("/logout", tokenCheck, userController.logout.bind(userController));
 
-
 /**
  * @description - route for get one user
  * @method - GET
@@ -98,7 +88,6 @@ router.get(
   userController.getOne.bind(userController)
 );
 
-
 /**
  * @description - route for get all users
  * @method - GET
@@ -109,7 +98,6 @@ router.get(
  * @returns {object} - return an object with the users getted
  */
 router.get("/getAll", tokenCheck, userController.getAll.bind(userController));
-
 
 /**
  * @description - route for update a user
@@ -159,15 +147,7 @@ router.delete(
  */
 router.use(errorHandler);
 
-
 /**
  * @description - export the router
  */
 module.exports = router;
-
-
-
-
-
-
-

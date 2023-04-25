@@ -1,7 +1,6 @@
 const CoreDataMapper = require("./coreDatamapper");
 const pool = require("../utils/clientConnect");
 
-
 /**
  * @description Datamapper for category
  * @class CategoryDatamapper
@@ -11,28 +10,24 @@ const pool = require("../utils/clientConnect");
  * @returns {object} - instance of CategoryDatamapper
  */
 class CategoryDatamapper extends CoreDataMapper {
-		static tableName = "category";
+  static tableName = "category";
 
-	constructor () {
-		super();
-	}
+  constructor() {
+    super();
+  }
 
-	/**
-	 * @description - method for get all categories
-	 * @method - getAll
-	 * @returns {object} - return an object with all categories
-	 */
-	async getAll () {
-	const query = `SELECT * FROM ${this.constructor.tableName}`
-	const response = await pool.query(query)
+  /**
+   * @description - method for get all categories
+   * @method - getAll
+   * @returns {object} - return an object with all categories
+   */
+  async getAll() {
+    const query = `SELECT * FROM ${this.constructor.tableName}`;
+    const response = await pool.query(query);
 
-	return response.rows
+    return response.rows;
+  }
 }
-
-
-
-}
-
 
 /**
  * @description - export an instance of CategoryDatamapper

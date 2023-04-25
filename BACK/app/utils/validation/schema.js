@@ -11,8 +11,8 @@ const Joi = require("joi");
  */
 const schema = {
 	user_create: Joi.object({
-		pseudo: Joi.string().required(),
 		email: Joi.string().email().required(),
+		pseudo: Joi.string().required(),
 		password: Joi.string().required(),
 		firstname: Joi.string().required(),
 		lastname: Joi.string().required(),

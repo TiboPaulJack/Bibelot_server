@@ -1,7 +1,5 @@
-
 const debug = require("debug")("3db: CoreControllers");
 const updateUser = require("../utils/user/updateUser");
-
 
 /**
  * @description - controller for core, basic CRUD class, all other controllers will inherit from this class
@@ -12,9 +10,8 @@ const updateUser = require("../utils/user/updateUser");
 class CoreController {
   static dataMapper;
 
-
   /**
-   * @description - method for get all 
+   * @description - method for get all
    * @method - getAll
    * @param {object} req - request
    * @param {object} res - response
@@ -22,12 +19,8 @@ class CoreController {
    * @returns {object} - return an object with all data
    */
   async getAll(req, res, next) {
-
-
-
     const data = req.body;
     const response = await this.constructor.dataMapper.getAll(data);
-
 
     if (response) {
       res.status(200).json(response);
@@ -43,7 +36,6 @@ class CoreController {
    * @returns {object} - return an object with one data
    */
   async getOne(req, res, next) {
-
     const id = req.params.id;
 
     const response = await this.constructor.dataMapper.getOne(id);
@@ -66,9 +58,7 @@ class CoreController {
    * @returns {object} - return an object with the data created
    */
   async create(req, res, next) {
-
     debug("create OK");
-
 
     const response = await this.constructor.dataMapper.create(req.body);
     if (response) {
@@ -86,9 +76,7 @@ class CoreController {
    * @returns {object} - return an object with the data updated
    */
   async update(req, res, next) {
-
     let data = req.body;
-  
 
     if (req.files.picture) {
       const picture = req.files.picture[0].buffer;
