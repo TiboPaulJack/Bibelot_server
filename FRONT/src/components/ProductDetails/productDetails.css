@@ -1,0 +1,94 @@
+
+.productDetails{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    margin-top: 10%;
+}
+/*-----------------TOP--------------*/
+.productDetails__top{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 100%;
+    height: 500px;
+
+}
+.model3d{
+    border: #212121 solid 1px;
+    width: 50%;
+}
+
+.productDetails__infos{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 30%;
+
+    border: #212121 solid 1px;
+}
+.productDetails__infos div{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    text-align: justify;
+
+}
+
+.productDetails__infos span{
+    text-align: left;
+}
+/*-----------------MIDDLE-----------------*/
+.productDetails__middle{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 90%;
+    height: 200px;
+
+    margin-top: 10%;
+    margin-left: auto;
+    margin-right: auto;
+
+    border: #212121 solid 1px;
+}
+.box-likes{
+    display: flex;
+    border: blueviolet solid 1px;
+    position: relative ;
+    width: 20%;
+    margin-top: 2%;
+    left:5%;
+    z-index: 2;
+
+}
+
+/*-----------------BOTTOM-----------------*/
+.productDetails__bottom{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 100%;
+    height: 500px;
+    margin-top: 10%;
+}
+
+.bottom__comments{
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    height: 100%;
+
+    border: #212121 solid 1px;
+
+}
+
+.bottom__tags{
+display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 30%;
+    height: 100%;
+
+    border: #212121 solid 1px;
+}

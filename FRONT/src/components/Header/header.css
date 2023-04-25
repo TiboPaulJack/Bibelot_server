@@ -1,0 +1,33 @@
+
+
+header{
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    height: 10%;
+}
+header h1{
+    margin-left: 1%;
+    cursor: pointer;
+}
+.header__nav{
+    display: flex;
+    flex-direction: row;
+    gap: 2vw;
+    margin-right: 1%;
+    align-self: center;
+}
+header button{
+    cursor: pointer;
+}
+
+.header__nav .nav__auth{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 2vw;
+}
+
+.auth__button{
+}

@@ -1,0 +1,29 @@
+
+.auth{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    box-sizing: border-box;
+    margin: 0;
+    width: 80%;
+    margin: auto;
+    height: 80%;
+
+    border: #212121 1px solid;
+}
+
+.login{
+    border: red 1px solid;
+}
+.register{
+    border: blue 1px solid;
+}
+
+.login, .register{
+    width: 50%;
+    margin: auto;
+    text-align: center;
+    height: 60%;
+    align-items: center;
+}
+

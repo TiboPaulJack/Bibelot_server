@@ -1,0 +1,16 @@
+### Example user template template
+### Example user template
+
+# IntelliJ project files
+.idea
+*.iml
+out
+gen
+
+BACK/node_modules
+BACK/.env
+BACK/test.glb
+
+BACK/uploads
+FRONT/node_modules
+

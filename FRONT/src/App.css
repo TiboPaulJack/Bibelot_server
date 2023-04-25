@@ -1,0 +1,57 @@
+
+:root {
+    --bg-color: #E6E7E9;
+    --text-color: #212121;
+    --typewriterSpeed: 6s;
+    --typewriterCharacters: 17;
+    --box-shadow: 5px 5px #212121;
+    --box-border: 4px #212121 solid;
+    --input-background: var(--bg-color);
+
+}
+
+[data-theme="dark"]{
+    --bg-color: rgba(128, 126, 121, 0.86);
+    --box-border: 4px black solid;
+    --box-shadow: 8px 8px black;
+    --text-color: #cfcfcf;
+}
+
+
+body{
+    width: 100vw;
+    height: 100vh;
+
+
+
+    background-image: linear-gradient(var(--bg-color) 10%, #F1F1F2 90%);
+    background-attachment: fixed;
+    background-size: cover;
+    color: var(--text-color);
+
+    box-sizing: border-box;
+    padding: 2vw;
+
+    margin: 0;
+}
+
+/*delete button, links, and lists default styles */
+button, a, ul, li, input{
+    margin: 0;
+    padding: 0;
+    border: none;
+    text-decoration: none;
+    list-style: none;
+    background: none;
+    color: inherit;
+    font: inherit;
+    outline: inherit;
+}
+
+
+
+.App, #root{
+
+    width: 100%;
+    height: 100%;
+}
