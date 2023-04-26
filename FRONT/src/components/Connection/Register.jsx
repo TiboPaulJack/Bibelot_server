@@ -4,15 +4,12 @@ import baseHost from "../../assets/baseHost.js";
 export default function Register() {
   
   
-  const createUser = async (data) => {
+  const register = async (data) => {
+    
     try {
-
       const response = await fetch(baseHost + "/user/add", {
         method: "POST",
-        body: data,
-        headers: {
-          contentType: "multipart/form-data",
-        }
+        body: data
       });
       return response.json();
     } catch (error) {
@@ -35,10 +32,10 @@ export default function Register() {
     }
     // Delete passwordConfirm from the form data
     formData.delete("passwordConfirm");
-
+    
     // Send the data to the API
-    createUser(formData).then((response) => {
-      console.log(response);
+    register(formData).then((response) => {
+      console.log("response API :", response);
     });
   };
 

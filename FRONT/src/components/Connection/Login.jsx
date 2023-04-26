@@ -1,17 +1,42 @@
-
-
+import baseHost from "../../assets/baseHost.js";
+import { useContext, useState } from "react";
+import { UserContext } from "../../App.jsx";
 
 export default function Login() {
+  const { logged, setLogged } = useContext(UserContext);
+  const [user, setUser] = useState("");
+  const [userId, setUserId] = useState(null);
 
-
-
-
-
+  const login = async (formData) => {
+    // Convert the formData to a URLSearchParams object
+    const form = new URLSearchParams(formData);
+    try {
+      const response = await fetch(baseHost + "/user/signin", {
+        method: "POST",
+        body: form,
+      });
+      const data = await response.json();
+      if (response.status === 200) {
+        setLogged(true);
+        setUserId(data.user.id);
+        setUser(data.user);
+        localStorage.setItem("token", data.token);
+      }
+    } catch (error) {
+      console.log("error :", error.status, error.message);
+    }
+    console.log("logged :", logged);
+    console.log("user :", user);
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('submit');
-  }
+
+    const form = e.target;
+    const formData = new FormData(form);
+
+    return login(formData);
+  };
 
   return (
     <div className="login">
@@ -19,14 +44,10 @@ export default function Login() {
         <div className="login__form__title">Login</div>
         <form onSubmit={handleSubmit}>
           <div className="login__form__input">
-            <input type="text"
-                   name="email"
-                   placeholder="Email" />
+            <input type="text" name="email" placeholder="Email" />
           </div>
           <div className="login__form__input">
-            <input type="password"
-                   name="password"
-                   placeholder="Password" />
+            <input type="password" name="password" placeholder="Password" />
           </div>
           <div className="login__form__button">
             <button type="submit">Login</button>
@@ -34,8 +55,5 @@ export default function Login() {
         </form>
       </div>
     </div>
-
-  )
-
+  );
 }
-

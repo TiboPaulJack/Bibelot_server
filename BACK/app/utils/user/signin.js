@@ -9,7 +9,7 @@ const debug = require("debug")("3db: signin");
 
 
 /**
- * @description - function for user signin, take data in req.body 
+ * @description - function for user signin, take data in req.body
  * @param {object} req - request object
  * @param {object} res - response object
  * @param {function} next - next middleware
@@ -18,8 +18,10 @@ const debug = require("debug")("3db: signin");
  */
 const signin = async (req, res, next) => {
   //we get email and password from req.body
-
+  
+  
   const { email, password } = req.body;
+  debug("req", req.body );
 
   //we check if the user exist
 
