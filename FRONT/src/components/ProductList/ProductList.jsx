@@ -3,6 +3,7 @@ import ProductCard from "../ProductCard/ProductCard.jsx";
 import {useEffect, useState} from "react";
 import baseApi from "../../assets/baseApi.js";
 import {Navigate, useNavigate} from "react-router-dom";
+import BaseHost from "../../assets/baseHost.js";
 
 export default function ProductList() {
 
@@ -12,7 +13,7 @@ export default function ProductList() {
   useEffect(() => {
     //todo : change async await for then
     const fetchCards = async () => {
-      await fetch(baseApi + '/model')
+      await fetch(BaseHost + '/model')
         .then(response => response.json())
         .then(data => {
           const newData = data.map(item => {

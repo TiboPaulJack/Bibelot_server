@@ -10,10 +10,16 @@ import ProductUpdate from "../ProductUpdate/ProductUpdate.jsx";
 import { UserContext } from "../../App.jsx";
 import baseHost from "../../assets/baseHost.js";
 import bufferToUrl from "../../utils/BufferToUrl.js";
+import ProductDelete from "../ProductDelete/ProductDelete.jsx";
 
 export default function UserPage() {
   
   const { logout } = useContext(UserContext);
+  
+  const [userData, setUserData] = useState({});
+  const [userProducts, setUserProducts] = useState([]);
+  const [rendered, setRendered] = useState("UserProducts");
+  const [selectedId, setSelectedId] = useState(0)
   
   
   useEffect(() => {
@@ -32,23 +38,26 @@ export default function UserPage() {
     }).then((data) => {
       data.userProfil.picture = bufferToUrl(data.userProfil.picture.data)
       setUserData(data.userProfil);
+      setUserProducts(data.allModel);
     }).catch((error) => {
       console.error(error);
     });
+    console.log('FETCHED USER DATA')
   }, []);
   
-  const [userData, setUserData] = useState({});
-  const [userProducts, _] = useState([]);
-  const [rendered, setRendered] = useState("UserProducts");
   
+  
+  const handleSelectedId = (id) => {
+    setSelectedId(id);
+    console.log("selectedId",selectedId)
+  }
   const handleRendered = (componentName) => {
     setRendered(componentName);
-    console.log(rendered)
   }
   //TODO: REFACTOR THIS COMPONENT TO USE THE CONTEXT API
   return (
     <>
-      <Header />
+      <Header rendered={handleRendered} />
       <div className="userPage">
         <UserBanner rendered={handleRendered}
                     userData={userData}
@@ -57,7 +66,10 @@ export default function UserPage() {
           {rendered === "UserProducts"
             &&
             <UserProducts rendered={handleRendered}
+                          setRendered={setRendered}
                           userProducts={userProducts}
+                          setUserProducts={setUserProducts}
+                          setSelectedId={handleSelectedId}
             />}
           {rendered === "UserUpdate"
             &&
@@ -69,7 +81,16 @@ export default function UserPage() {
             <ProductAdd rendered={handleRendered} />}
           {rendered === "ProductUpdate"
             &&
-            <ProductUpdate rendered={handleRendered} />}
+            <ProductUpdate rendered={handleRendered}
+                           id={selectedId}
+            />
+          }
+          {rendered === "ProductDelete"
+            &&
+            <ProductDelete  rendered={handleRendered}
+                            id={selectedId}
+            />}
+          
         </div>
       </div>
       <Footer />

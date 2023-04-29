@@ -3,13 +3,21 @@ import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { UserContext } from "../../App.jsx";
 
-export default function Header() {
+export default function Header(props) {
   const navigate = useNavigate();
   
   const { logged } = useContext(UserContext);
   const { logout } = useContext(UserContext);
-  console.log(logged)
   
+  
+  const handleProfile = () => {
+    if(props.rendered){
+      const { rendered } = props;
+      rendered("UserProducts");
+    }
+    
+    navigate("/user");
+  }
   const handleLogout = () => {
     logout();
   }
@@ -27,7 +35,7 @@ export default function Header() {
         
         {logged &&
           <>
-          <button className="nav__button" onClick={() => navigate("/user")}>
+          <button className="nav__button" onClick={handleProfile}>
             Profile
           </button>
           <button className={"auth__button"} onClick={handleLogout}>

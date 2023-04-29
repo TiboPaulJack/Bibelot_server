@@ -1,10 +1,18 @@
+import baseHost from "../../assets/baseHost.js";
+import { useContext } from "react";
+import { UserContext } from "../../App.jsx";
+
 export default function UserDeleteConfirm({ setDeleteConfirm }) {
   
+  const { userId } = useContext(UserContext)
+  console.log('userId', userId)
   
   const handleSubmit = (e) => {
     e.preventDefault();
     
-    fetch(baseHost + `/user/delete`, {
+    
+    
+    fetch(baseHost + `/user/delete/${userId}`, {
       method: "DELETE",
       headers: {
         'authorization': `Bearer ${localStorage.getItem("token")} `,
@@ -12,7 +20,6 @@ export default function UserDeleteConfirm({ setDeleteConfirm }) {
       }).then((res) => res.json()
       ).then((data) =>
       {
-        console.log(data)
         if (data.status === 200) {
           localStorage.removeItem("token")
           window.location = "/"

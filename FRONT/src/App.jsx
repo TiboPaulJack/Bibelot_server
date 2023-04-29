@@ -23,9 +23,13 @@ export const UserContext = createContext({
 function App() {
   
   
+  
+  
   useEffect(() => {
     if (localStorage.getItem('token')) {
       setLogged(true);
+    }else{
+      setLogged(false);
     }
   })
   
@@ -33,16 +37,18 @@ function App() {
   const [user, setUser] = useState('');
   const [userId, setUserId] = useState(0);
   const [logged, setLogged] = useState(false);
+ 
+  
   const logout = () => {
     setLogged(false);
     setUser('');
     setUserId(null);
     localStorage.clear();
     window.location = "/";
-    
-    
   }
-
+  console.log("id", userId)
+  
+  
   return (
     <div className="App">
       <UserContext.Provider value={{

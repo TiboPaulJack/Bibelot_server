@@ -20,22 +20,20 @@ export default function Login() {
       if (response.status === 200) {
         console.log(data)
         setLogged(true);
-        setUserId(+data.userId);
+        setUserId(data.userId);
         setUser(data.pseudo);
         localStorage.setItem("token", data.token);
-        window.location = "/";
+        /*window.location = "/";*/
         setInterval(() => {
           logout()
         } , 60 * 60 * 1000) // 1 hour
+        console.log("user ID AT LOGGIN ", userId)
       }
     } catch (error) {
       console.log("error :", error.status, error.message);
     }
   };
 
-  console.log("logged :", logged);
-  console.log("user :", user);
-  console.log("userId :", userId)
   const handleSubmit = (e) => {
     e.preventDefault();
 
