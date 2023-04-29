@@ -18,12 +18,12 @@ class CoreDatamapper {
    * @returns {object} - data
    */
   async getAll(data) {
-    debug("ok");
-    debug("data", data);
+    
+    
     if (data === undefined || Object.keys(data).length === 0) {
       const firstQuery = `SELECT * FROM "${this.constructor.tableName}"`;
       const response = await pool.query(firstQuery);
-
+      
       return response.rows;
     } else {
       let query = `SELECT * FROM "${this.constructor.tableName}" WHERE "${
@@ -97,17 +97,7 @@ class CoreDatamapper {
    * @returns {object} - data
    */
   async update(id, data) {
-    debug(data);
-    debug(id);
-    //id check
-    const checkQuery = `SELECT * FROM "${this.constructor.tableName}" WHERE "id" = $1`;
-    const idcheck = await pool.query(checkQuery, [id]);
-    debug(checkQuery);
-
-    if (idcheck.rowCount === 0) {
-      return new notFoundError("user not found");
-    }
-
+    
     const newValues = [];
 
     Object.keys(data).forEach((key, index) => {
@@ -119,11 +109,9 @@ class CoreDatamapper {
     )} WHERE id = $${newValues.length + 1} RETURNING *`;
     const response = await pool.query(query, [...Object.values(data), id]);
     debug("response update", response.rows);
+    
 
-    //we return response.rows[0] and idcheck.rows[0].picture for the update of the picture and
-    //delete old picture path in the file system for save space
-
-    return [response.rows[0], idcheck.rows[0].picture];
+    return response.rows[0];
   }
 
   /**

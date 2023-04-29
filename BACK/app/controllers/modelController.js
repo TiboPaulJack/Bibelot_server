@@ -1,13 +1,9 @@
 const coreController = require("./coreController");
 const modelDatamapper = require("../datamappers/modelDatamapper");
 const debug = require("debug")("3db: modelController");
-const path = require("path");
 const fs = require("fs");
-const badInputError = require("../utils/errorControl/badInputError");
-const sendModelToBuffer = require("../utils/model/sendModelToBuffer");
 const sendPictureToBuffer = require("../utils/model/sendPictureToBuffer");
 const deleteFile = require("../utils/model/deleteModel");
-const NotFoundError = require("../utils/errorControl/notFoundError");
 
 /**
  * @class modelController
@@ -37,7 +33,7 @@ class modelController extends coreController {
       req.query.hasOwnProperty("category") ||
       req.query.hasOwnProperty("pseudo")
     ) {
-      response = await this.dataMapper.getAllModelsByCategory(req.query);
+      response = await this.dataMapper.getAllModelsByCategoryOrPseudo(req.query);
     } else {
       debug("no query");
       response = await this.dataMapper.getAllModels();
@@ -73,7 +69,6 @@ class modelController extends coreController {
    * @param {object} req - request
    * @param {object} res - response
    * @param {function} next - next middleware
-   * @param {fs} - file system of node js is used for read, write and send file
    * @returns {object} - return an object with getting model glb data
    */
   async getGlb(req, res, next) {

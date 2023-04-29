@@ -33,7 +33,7 @@ const add = async (req, res, next, body) => {
   // if the user exist we send an error
   if (Check.length > 0) {
     //if user already exist we delete the picture path uploaded in the server
-    body.picture === "uploads/avatar/default.jpg"
+    body.picture === "uploads/avatar/default.png"
       ? oldPictureDelete(path)
       : oldPictureDelete(req.files.picture[0].path);
 

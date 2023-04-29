@@ -1,0 +1,17 @@
+
+
+
+.productAdd,
+.productUpdate{
+    width: 40%;
+    margin: auto;
+}
+
+
+.productAdd form,
+.productUpdate form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}

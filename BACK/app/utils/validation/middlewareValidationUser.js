@@ -10,7 +10,6 @@ function validation(schema) {
   return async (req, res, next) => {
     let data = req.body;
 
-    debug("fsdf",data);
 
     if (req.files && req.files.picture && req.files.picture.length !== {}) {
 
@@ -22,7 +21,7 @@ function validation(schema) {
     data = req.body;
 
     try {
-      const value = await schema.validateAsync(data);
+      await schema.validateAsync(data);
 
       next();
     } catch (error) {

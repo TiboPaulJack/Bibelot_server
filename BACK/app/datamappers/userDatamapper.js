@@ -19,6 +19,16 @@ class UserDatamapper extends CoreDatamapper {
     super();
   }
 
+  async getProfilePicture(id) {
+    const query = `SELECT "picture" FROM "user" WHERE "id" = $1`;
+    const response = await pool.query(query, [id]);
+
+    if (response.rowCount === 0) {
+      return new NotFoundError("not found");
+    }
+
+    return response.rows[0];
+  }
   /**
    * @method getOne
    * @description Get one user by id
@@ -30,6 +40,7 @@ class UserDatamapper extends CoreDatamapper {
     const idCheck = `SELECT "pseudo", "email", "firstname", "lastname", "picture" FROM "user" WHERE id = $1`;
     const check = await pool.query(idCheck, [id]);
 
+    debug("datamapper check", check.rows);
     if (check.rowCount === 0) {
       return new NotFoundError("user not found");
     }
@@ -45,12 +56,9 @@ class UserDatamapper extends CoreDatamapper {
 
     const response = await pool.query(getUserModels, [id]);
     debug("response", response.rows);
-    const user = [...check.rows];
-    const model = [...response.rows];
-    const data = { user, model };
-    debug("getOne OK", data);
-
-    return data;
+    const user = check.rows[0];
+    const model = response.rows;
+    return { user, model };
   }
 
   /**
@@ -61,32 +69,24 @@ class UserDatamapper extends CoreDatamapper {
    * @returns {object} - user uptated
    */
   async update(id, data) {
-    debug(data);
-    //id check
-    const checkQuery = `SELECT * FROM "${this.constructor.tableName}" WHERE "id" = $1`;
-    const idcheck = await pool.query(checkQuery, [id]);
-    debug(checkQuery);
+    debug("INCOMING DATA", data);
 
-    if (idcheck.rowCount === 0) {
-      return new NotFoundError("user not found");
-    }
-
-    const newValues = [];
+    const values = [];
 
     Object.keys(data).forEach((key, index) => {
-      newValues.push(`${key} = $${index + 1}`);
+      values.push(`${key} = $${index + 1}`);
     });
 
-    const query = `UPDATE "${this.constructor.tableName}" SET ${newValues.join(
-      ", "
-    )} WHERE id = $${newValues.length + 1} RETURNING *`;
+    const query = `
+        UPDATE "${this.constructor.tableName}"
+        SET ${values.join(", ")}
+        WHERE id = $${values.length + 1}`;
+
+    debug("query", query);
+
     const response = await pool.query(query, [...Object.values(data), id]);
-    debug("response update", response.rows);
 
-    //we return response.rows[0] and idcheck.rows[0].picture for the update of the picture and
-    //delete old picture path in the file system for save space
-
-    return [response.rows[0], idcheck.rows[0].picture];
+    return response.rows[0];
   }
 }
 

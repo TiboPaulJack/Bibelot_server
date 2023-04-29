@@ -1,11 +1,12 @@
 import baseHost from "../../assets/baseHost.js";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { UserContext } from "../../App.jsx";
 
 export default function Login() {
   const { logged, setLogged } = useContext(UserContext);
-  const [user, setUser] = useState("");
-  const [userId, setUserId] = useState(null);
+  const { user, setUser } = useContext(UserContext);
+  const { userId, setUserId } = useContext(UserContext);
+  const { logout } = useContext(UserContext);
 
   const login = async (formData) => {
     // Convert the formData to a URLSearchParams object
@@ -17,18 +18,24 @@ export default function Login() {
       });
       const data = await response.json();
       if (response.status === 200) {
+        console.log(data)
         setLogged(true);
-        setUserId(data.user.id);
-        setUser(data.user);
+        setUserId(+data.userId);
+        setUser(data.pseudo);
         localStorage.setItem("token", data.token);
+        window.location = "/";
+        setInterval(() => {
+          logout()
+        } , 60 * 60 * 1000) // 1 hour
       }
     } catch (error) {
       console.log("error :", error.status, error.message);
     }
-    console.log("logged :", logged);
-    console.log("user :", user);
   };
 
+  console.log("logged :", logged);
+  console.log("user :", user);
+  console.log("userId :", userId)
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -44,10 +51,16 @@ export default function Login() {
         <div className="login__form__title">Login</div>
         <form onSubmit={handleSubmit}>
           <div className="login__form__input">
-            <input type="text" name="email" placeholder="Email" />
+            <input type="text"
+                   name="email"
+                   placeholder="Email"
+            />
           </div>
           <div className="login__form__input">
-            <input type="password" name="password" placeholder="Password" />
+            <input type="password"
+                   name="password"
+                   placeholder="Password"
+            />
           </div>
           <div className="login__form__button">
             <button type="submit">Login</button>

@@ -6,7 +6,6 @@ const signin = require("../utils/user/signin");
 sendPictureToBuffer = require("../utils/user/sendPictureToBuffer");
 const oldPictureDelete = require("../utils/user/oldPictureDelete");
 
-const nodemailer = require("nodemailer");
 
 /**
  * @description - controller for user
@@ -26,7 +25,6 @@ class userController extends coreController {
   /**
    * @description - method for create a user
    * @method - create
-   * @param {function} newUser - function for create a user, require with const "add", see utils/user/newUser.js
    * @param {object} req - request
    * @param {object} res - response
    * @param {function} next - next middleware
@@ -35,7 +33,7 @@ class userController extends coreController {
   async create(req, res, next) {
     debug(req.files.picture);
 
-    let picture = "uploads/avatar/default.jpg";
+    let picture = "uploads/avatar/default.png";
 
     if (req.files && req.files.picture) {
       picture = req.files.picture[0].path;
@@ -53,7 +51,6 @@ class userController extends coreController {
   /**
    * @description - method for signin a user
    * @method - signin
-   * @param {function} signin - function for signin a user, require with const "signin", see utils/user/signin.js
    * @param {object} req - request
    * @param {object} res - response
    * @param {function} next - next middleware
@@ -117,16 +114,20 @@ class userController extends coreController {
    * @param {function} next - next middleware
    * @returns {object} - return an object with getting user
    */
-  async getOne(req, res, next) {
-    const id = req.params.id;
+  async getOne(req, res, next,) {
+    
+    debug("getOne")
+    const id = req.decodedId
 
     const response = await this.constructor.dataMapper.getOne(id);
 
     if (response instanceof Error) {
       return next(response);
     }
+    
+    debug("debogage userpicture", response.user.picture)
 
-    const userBuffer = await sendPictureToBuffer(response.user[0].picture);
+    const userBuffer = await sendPictureToBuffer(response.user.picture);
 
     //we nedd to send picture buffer for all model of this user so we use a loop for do that
     const allModel = [];
@@ -149,10 +150,10 @@ class userController extends coreController {
 
     if (response) {
       const userProfil = {
-        pseudo: response.user[0].pseudo,
-        email: response.user[0].email,
-        firstname: response.user[0].firstname,
-        lastname: response.user[0].lastname,
+        pseudo: response.user.pseudo,
+        email: response.user.email,
+        firstname: response.user.firstname,
+        lastname: response.user.lastname,
         picture: userBuffer,
       };
 

@@ -1,5 +1,6 @@
 const debug = require("debug")("3db: CoreControllers");
-const updateUser = require("../utils/user/updateUser");
+const userDatamapper = require("../datamappers/userDatamapper");
+const oldPictureDelete = require("../utils/user/oldPictureDelete");
 
 /**
  * @description - controller for core, basic CRUD class, all other controllers will inherit from this class
@@ -72,25 +73,28 @@ class CoreController {
    * @param {object} req - request
    * @param {object} res - response
    * @param {function} next - next middleware
-   * @param {function} updateUser - function for update user, import from utils see utils/user/updateUser.js
    * @returns {object} - return an object with the data updated
    */
+
   async update(req, res, next) {
-    let data = req.body;
+    const id = req.decodedId;
+
+    // If the body is empty, returns an error
+    if (Object.entries(req.body).length === 0 && req.files.picture === undefined) {
+      res.status(400).json({ message: "empty request - execution canceled" });
+      return debug("empty request - execution canceled");
+    }
 
     if (req.files.picture) {
-      const picture = req.files.picture[0].buffer;
-      data = { ...req.body, picture };
+      const OldPictureToDelete = await userDatamapper.getProfilePicture(id);
+      await oldPictureDelete(OldPictureToDelete);
+      req.body.picture = req.files.picture[0].path;
     }
 
-    const response = await updateUser(req, res, next, data);
-
+    const response = await userDatamapper.update(req.decodedId, req.body);
+    
     if (response instanceof Error) {
       return next(response);
-    }
-
-    if (response) {
-      res.status(200).json(response);
     }
   }
 

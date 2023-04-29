@@ -7,7 +7,7 @@ const NoContentError = require("../utils/errorControl/noContentError");
 /**
  * @class ModelDatamapper
  * @extends CoreDatamapper
- * @personnalisedMethods getOne, getAllModels, getAllModelsByCategory, create, delete (this methods don't heritate from CoreDatamapper)
+ * @personnalisedMethods getOne, getAllModels, getAllModelsByCategoryOrPseudo, create, delete (this methods don't heritate from CoreDatamapper)
  * @description Datamapper for model
  * @param {string} tableName - Name of the table in the database
  * @returns {object} - instance of ModelDatamapper
@@ -18,6 +18,7 @@ class modelDatamapper extends CoreDataMapper {
   constructor() {
     super();
   }
+  
 
   /**
    * @method getOne
@@ -69,12 +70,12 @@ class modelDatamapper extends CoreDataMapper {
   }
 
   /**
-   * @method getAllModelsByCategory
+   * @method getAllModelsByCategoryOrPseudo
    * @description Get all models by category or by pseudo of user using query params
    * @param {object} para - parameters
    * @returns {object} - models
    */
-  async getAllModelsByCategory(para) {
+  async getAllModelsByCategoryOrPseudo( para) {
     let query = `SELECT "model"."id", "model"."picture", "model"."name", "category"."name" AS "category", "user"."pseudo", COUNT("model_has_like"."model_id") AS "likes"
 		FROM "model"
 		LEFT JOIN "user" ON "model"."user_id" = "user"."id"
@@ -131,7 +132,7 @@ class modelDatamapper extends CoreDataMapper {
     const values = [insertModelId, category_id];
     if (category_id) {
       const modelHasCategory = `INSERT INTO "model_has_category" (model_id, category_id) VALUES ($1, $2)`;
-      const modelCategoryquery = await pool.query(modelHasCategory, values);
+      await pool.query(modelHasCategory, values);
     }
 
     return response.rows[0];
@@ -154,7 +155,7 @@ class modelDatamapper extends CoreDataMapper {
 
     //delete all column in model_has_category where model_id appear
     const categoryModel = `DELETE FROM "model_has_category" WHERE "model_id" = $1`;
-    const categoryModelDelete = await pool.query(categoryModel, [id]);
+    await pool.query(categoryModel, [id]);
 
     const query = `DELETE FROM "${this.constructor.tableName}" WHERE "id" = $1 RETURNING * `;
     const response = await pool.query(query, [id]);

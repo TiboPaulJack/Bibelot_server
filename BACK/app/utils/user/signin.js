@@ -13,7 +13,6 @@ const debug = require("debug")("3db: signin");
  * @param {object} req - request object
  * @param {object} res - response object
  * @param {function} next - next middleware
- * @param {object} body - body of the request
  * @returns {object} - return an object with the user and a token
  */
 const signin = async (req, res, next) => {
@@ -21,6 +20,7 @@ const signin = async (req, res, next) => {
   
   
   const { email, password } = req.body;
+  
   debug("req", req.body );
 
   //we check if the user exist

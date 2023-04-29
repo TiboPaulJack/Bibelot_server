@@ -9,20 +9,24 @@ const debug = require("debug")("3db: oldPictureDelete");
  * @param {string} oldPicture - old picture path
  * @returns {void}
  */
-const oldPictureDelete = (oldPicture) => {
 
-    if(oldPicture === "uploads/avatar/default.jpg") {
-        return;
-    }else {
+const oldPictureDelete = async (oldPicture) => {
+  try {
+    if (oldPicture.picture === "uploads/avatar/default.png") {
+      console.debug("SAME");
+      return null;
+    }
+    await fs.promises.unlink(oldPicture.picture);
+    debug("old picture deleted");
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};
 
-    fs.unlink(oldPicture, (err) => {
-        if (err) {
-            debug(err);
-        }
-        debug("old picture deleted");
-    })
-}
-}
+
+
+
 
 /**
  * @description - export oldPictureDelete

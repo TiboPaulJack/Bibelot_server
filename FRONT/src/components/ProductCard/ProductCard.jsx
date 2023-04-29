@@ -1,5 +1,6 @@
 import './productCard.css'
 import {useNavigate} from "react-router-dom";
+import Like from "../Like/Like.jsx";
 
 export default function ProductCard(props) {
 
@@ -14,8 +15,8 @@ export default function ProductCard(props) {
         <img src={ props.url } alt=""/> </div>
       <div className="card__infos">
         <div className="card__infos-title">{ props.name }</div>
-        <div className="card__infos-likes">{ props.like }</div>
         <div className="card__infos-author">{ props.pseudo }</div>
+        <Like like={props.like}/>
       </div>
     </div>
   )

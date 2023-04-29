@@ -1,0 +1,65 @@
+
+
+.userPage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 80%;
+}
+/*--------------------BANNER----------------------*/
+.userBanner{
+    border: black solid 1px;
+
+    display: flex;
+    flex-direction: row;
+
+    height: 20%;
+    width: 80%;
+    margin: auto;
+}
+.userBanner__avatar{
+    object-fit: cover;
+}
+.userBanner img{
+    width: 100px;
+    aspect-ratio: 1/1;
+    border: red solid 1px;
+    border-radius: 50%;
+    margin-left: 10px;
+    margin-top: 10px;
+    object-fit: cover;
+
+}
+.userBanner__name{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-left: 20px;
+}
+.editProfile{
+    position: relative;
+    left: 50%;
+}
+
+/*-------------------MAIN---------------------*/
+
+.userPage__main{
+    border: black solid 1px;
+    width: 80%;
+    height: 80%;
+    margin: auto;
+}
+.userProducts{
+
+}
+.userProducts h6{
+    text-align: right;
+
+}
+.userProducts__item{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    border: black solid 1px;
+}

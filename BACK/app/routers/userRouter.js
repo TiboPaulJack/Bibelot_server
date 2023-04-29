@@ -20,19 +20,10 @@ const handlerController = require("../controllers/handlerController");
 const validator = require("../utils/validation/middlewareValidationUser");
 const schema = require("../utils/validation/schema");
 const errorHandler = require("../utils/errorControl/errorHandler");
-const multer = require("multer");
-const bufferStorage = require("../utils/multer/bufferStorage");
 const upload = require("../utils/multer/multerConfig")();
-
-/**
- * @description - middleware for check the token
- * @method - tokenCheck
- * @param {object} req - request
- * @param {object} res - response
- * @param {function} next - next middleware
- * @returns {function} - next middleware
- */
+const checkAvailability = require("../utils/middlewares/CheckUserAvailability");
 const tokenCheck = require("../utils/user/tokenCheck");
+
 
 /**
  * @description - route for add a user
@@ -52,7 +43,7 @@ router.post(
 );
 
 /**
- * @description - route for signin a user
+ * @description - route for sign in a user
  * @method - POST
  * @param {string} "/signin" - path for signin a user
  * @param {function} validator - middleware for validate the body
@@ -83,7 +74,7 @@ router.post("/logout", tokenCheck, userController.logout.bind(userController));
  * @returns {object} - return an object with the user getted
  */
 router.get(
-  "/getOne/:id",
+  "/info",
   tokenCheck,
   userController.getOne.bind(userController)
 );
@@ -111,14 +102,10 @@ router.get("/getAll", tokenCheck, userController.getAll.bind(userController));
  * @returns {object} - return an object with the user updated
  */
 router.patch(
-  "/update/:id",
+  "/update/",
   tokenCheck,
-
+  checkAvailability,
   upload.fields([
-    { name: "pseudo" },
-    { name: "email" },
-    { name: "firstname" },
-    { name: "lastname" },
     { name: "picture" },
   ]),
   validator(schema.user_update),
