@@ -45,7 +45,7 @@ const schema = {
 		/*data: Joi.string(),*/
 		/*size: Joi.number(),*/
 		/*format: Joi.string(),*/
-		// name: Joi.string(),
+		name: Joi.string(),
 		download: Joi.boolean(),
 		description: Joi.string(),
 		/*picture: Joi.string(),*/

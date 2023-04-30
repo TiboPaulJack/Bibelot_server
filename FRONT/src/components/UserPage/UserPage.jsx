@@ -31,7 +31,7 @@ export default function UserPage() {
     }).then((res) => {
       if (res.status === 200) {
         return res.json();
-      } else if (res.status === 401) {
+      } else if (res.status === 401 || res.status === 403 || res.status === 404) {
         logout()
         window.location = "/";
       }

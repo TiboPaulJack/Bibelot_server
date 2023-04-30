@@ -33,6 +33,8 @@ const tokenCheck = async (req, res, next) => {
     }
   );
 
+  debug("DECODED", decoded)
+  
   if (!decoded) {
     return new tokenError("invalid or expired token");
   }

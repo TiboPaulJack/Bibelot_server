@@ -3,7 +3,6 @@ const debug = require("debug")("3db: datamapper");
 const pool = require("../utils/clientConnect");
 const NotFoundError = require("../utils/errorControl/notFoundError");
 
-debug("userDatamapper");
 /**
  * @class UserDatamapper
  * @extends CoreDatamapper
@@ -29,6 +28,19 @@ class UserDatamapper extends CoreDatamapper {
 
     return response.rows[0];
   }
+  
+  
+  async getUserModels(id) {
+    
+    const query = `SELECT model.data, model.picture FROM model WHERE model.user_id = $1`;
+    const response = await pool.query(query, [id]);
+    
+   
+      return response.rows;
+    
+    
+    
+  }
   /**
    * @method getOne
    * @description Get one user by id
@@ -40,7 +52,6 @@ class UserDatamapper extends CoreDatamapper {
     const idCheck = `SELECT "pseudo", "email", "firstname", "lastname", "picture" FROM "user" WHERE id = $1`;
     const check = await pool.query(idCheck, [id]);
 
-    debug("datamapper check", check.rows);
     if (check.rowCount === 0) {
       return new NotFoundError("user not found");
     }
@@ -55,7 +66,6 @@ class UserDatamapper extends CoreDatamapper {
         ORDER BY model.id;`;
 
     const response = await pool.query(getUserModels, [id]);
-    debug("response", response.rows);
     const user = check.rows[0];
     const model = response.rows;
     return { user, model };
@@ -82,7 +92,6 @@ class UserDatamapper extends CoreDatamapper {
         SET ${values.join(", ")}
         WHERE id = $${values.length + 1}`;
 
-    debug("query", query);
 
     const response = await pool.query(query, [...Object.values(data), id]);
 

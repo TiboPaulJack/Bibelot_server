@@ -12,7 +12,7 @@ const errorHandler = require("../utils/errorControl/errorHandler");
 const debug = require("debug")("3db: routers");
 const path = require("path");
 const multer = require("multer");
-const tokenCheck = require("../utils/user/tokenCheck");
+const tokenCheck = require("../utils/middlewares/tokenCheck");
 
 const router = express.Router();
 
@@ -23,6 +23,7 @@ const uploadPath = path.join("uploads");
 
 const storage = multer.diskStorage({
 	destination: (req, file, cb) => {
+		debug(req.body, "req.body FIRST MULTER");
 		cb(null, uploadPath);
 	},
 });
@@ -52,15 +53,7 @@ router.post(
 	handlerController(modelController.create.bind(modelController))
 );
 
-/**
- * @description - route for get limited models count to 10
- * @method - GET
- * @param {string} "/limited" - path for get limited models count to 10
- * @param {function} handlerController - middleware for handle the controller
- * @param {function} modelController.getLimited - controller for get limited models count to 10
- * @returns {object} - return an object with limited models count to 10
- */
-router.get("/limited", handlerController(modelController.getLimited.bind(modelController)));
+
 
 /**
  * @description - route for get all models
@@ -102,8 +95,8 @@ router.get(
 );
 
 /**
- * @description - route for get a model picture
- * @method - GET
+ * @description - to update a model
+ * @method - PATCH
  * @param {string} "/:id" - path for update a model
  * @param {function} handlerController - middleware for handle the controller
  * @param {function} modelController.update - controller for update a model
@@ -112,7 +105,8 @@ router.get(
  */
 router.patch(
 	"/:id",
-	tokenCheck, validator(schema.model_update),
+	tokenCheck,
+	validator(schema.model_update),
 	handlerController(modelController.update.bind(modelController))
 );
 
@@ -126,8 +120,8 @@ router.patch(
  * @returns {object} - return an object with the model deleted
  */
 router.delete(
-	"/:id", tokenCheck,
-	
+	"/:id",
+	tokenCheck,
 	handlerController(modelController.delete.bind(modelController))
 );
 

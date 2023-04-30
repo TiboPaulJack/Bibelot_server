@@ -50,6 +50,7 @@ class CoreDatamapper {
    * @returns {object} - data
    */
   async getOne(id) {
+    debug("id", id);
     const query = `SELECT * FROM "${this.constructor.tableName}" WHERE "id" = $1`;
     const response = await pool.query(query, [id]);
 
@@ -98,6 +99,8 @@ class CoreDatamapper {
    */
   async update(id, data) {
     
+    debug("data", data);
+    
     const newValues = [];
 
     Object.keys(data).forEach((key, index) => {
@@ -121,17 +124,12 @@ class CoreDatamapper {
    * @returns {object} - data
    */
   async delete(id) {
-    //id check
-    const checkQuery = `SELECT * FROM "${this.constructor.tableName}" WHERE "id" = $1`;
-    const idcheck = await pool.query(checkQuery, [id]);
-
-    if (idcheck.rowCount === 0) {
-      return new notFoundError("user not found");
-    }
 
     const query = `DELETE FROM "${this.constructor.tableName}" WHERE "id" = $1 RETURNING * `;
     const response = await pool.query(query, [id]);
 
+    debug("response delete", response.rows)
+    debug("response delete", response.rows[0])
     return response.rows[0];
   }
 }

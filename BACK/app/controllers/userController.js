@@ -1,10 +1,12 @@
 const coreController = require("./coreController");
 const userDatamapper = require("../datamappers/userDatamapper");
+const modelDatamapper = require("../datamappers/modelDatamapper");
 const add = require("../utils/user/newUser");
 const debug = require("debug")("3db: userController");
 const signin = require("../utils/user/signin");
 sendPictureToBuffer = require("../utils/user/sendPictureToBuffer");
 const oldPictureDelete = require("../utils/user/oldPictureDelete");
+const deleteFile = require( "../utils/model/deleteModel" );
 
 
 /**
@@ -46,6 +48,14 @@ class userController extends coreController {
     //we send mail to client forconfirm subscription
 
     res.status(200).json(addedUser);
+  }
+  
+  checkOrRenewToken(req, res, next) {
+    if(req.decodedId){
+      res.status(200).json({message: "token ok"})
+    }else{
+      res.status(401).json({message: "token expired"})
+    }
   }
 
   /**
@@ -171,24 +181,41 @@ class userController extends coreController {
    * @returns {object} - return an object with the user deleted
    */
   async delete(req, res, next) {
-    const response = await this.constructor.dataMapper.delete(req.params.id);
-    debug("response", response);
-
-    //now we delete the picture
-    oldPictureDelete(response.picture);
-
-    if (response instanceof Error) {
-      return next(response);
+    
+    if(+req.params.id !== req.decodedId){
+      debug("you are not the owner of this account")
+      return next(new Error("you are not the owner of this account")
+    )
     }
-
+    // DB search for all models of this user
+    // to find and delete glb and png files that are in the Uploads folder
+    const filesToDelete = await this.constructor.dataMapper.getUserModels(req.params.id);
+    
+    if(filesToDelete instanceof Error){
+      return next(filesToDelete)
+    }
+    
+    const response = await this.constructor.dataMapper.delete(req.params.id);
+    
+    if(response instanceof Error){
+      return next(response)
+    }
+    
+    if(filesToDelete.length !== 0) {
+      const modelPath = filesToDelete[0].data;
+      const picturePath = filesToDelete[0].picture;
+      
+      deleteFile( modelPath );
+      deleteFile( picturePath );
+    }
+    deleteFile(response.picture);
+    
     const deleteUser = {
       message: "User deleted",
       response,
     };
 
-    if (response) {
       res.status(200).json(deleteUser);
-    }
   }
 }
 

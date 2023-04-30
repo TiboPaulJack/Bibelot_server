@@ -23,9 +23,15 @@ class CoreController {
     const data = req.body;
     const response = await this.constructor.dataMapper.getAll(data);
 
+    if(response instanceof Error) {
+      return next(response);
+    }
+    
     if (response) {
       res.status(200).json(response);
     }
+    
+    
   }
 
   /**
@@ -40,7 +46,7 @@ class CoreController {
     const id = req.params.id;
 
     const response = await this.constructor.dataMapper.getOne(id);
-    debug("getOne OK", response);
+    
     if (response instanceof Error) {
       return next(response);
     }
@@ -62,6 +68,11 @@ class CoreController {
     debug("create OK");
 
     const response = await this.constructor.dataMapper.create(req.body);
+    
+    if(response instanceof Error) {
+      return next(response);
+    }
+    
     if (response) {
       res.status(201).json(response);
     }
@@ -96,6 +107,8 @@ class CoreController {
     if (response instanceof Error) {
       return next(response);
     }
+    
+    res.status(200).json(response);
   }
 
   /**

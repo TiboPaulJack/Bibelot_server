@@ -16,7 +16,7 @@ function validation(schema) {
 
 		
 		
-         debug("info", req.files)
+         debug("req.files", req.files)
          if(req.files && req.files.picture && req.files.picture.length !== {}) {
 			debug("je suis la")
 	

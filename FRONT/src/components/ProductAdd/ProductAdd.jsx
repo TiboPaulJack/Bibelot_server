@@ -1,16 +1,23 @@
 import './productAdd.css'
 import BaseHost from "../../assets/baseHost.js";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../App.jsx";
 
 
 export default function ProductAdd ({ rendered })  {
   
+  const [categories, setCategories] = useState([]);
   const { logout } = useContext(UserContext);
   
+  useEffect(() => {
+    fetch(BaseHost + '/category', {
+      method: "GET",
+    }).then((res) => res.json()
+    ).then((data) => setCategories(data))
+  }, []);
+  
+  
   const AddProduct = (formData) => {
-    
-    
     fetch(`${BaseHost}/model/add`, {
       method: "POST",
       headers: {
@@ -31,14 +38,8 @@ export default function ProductAdd ({ rendered })  {
     e.preventDefault();
     
     const formData = new FormData(e.target);
-    
     AddProduct(formData);
-    
-    
   }
-  
-
-  
   
     return (
       <div className="productAdd">
@@ -52,6 +53,15 @@ export default function ProductAdd ({ rendered })  {
                  placeholder="Product Name"
                  name="name"
           />
+          <label>Category</label>
+          <select name="category" id="category">
+            <option value="all">All</option>
+            {
+              categories.map((category) => (
+                <option key={ category.id } value={ category.id }>{ category.name }</option>
+              ))
+            }
+          </select>
           <label>Product Description</label>
           <input type="text"
                  placeholder="Product Description"

@@ -1,15 +1,18 @@
 import './productFilter.css'
 
 
-export default function ProductFilter() {
+
+export default function ProductFilter({ categories }) {
 
   return (
     <div className="productFilter">
       <select name="category" id="category">
         <option value="all">All</option>
-        <option value="category1">Category 1</option>
-        <option value="category2">Category 2</option>
-        <option value="category3">Category 3</option>
+        {
+          categories.map((category) => (
+          <option key={ category.id } value={ category.id }>{ category.name }</option>
+          ))
+        }
       </select>
       <select name="sort" id="sort">
         <option value="newest">Newest</option>
@@ -18,6 +21,5 @@ export default function ProductFilter() {
         <option value="Most Viewed">Most Viewed</option>
       </select>
     </div>
-
-  )
+  );
 }

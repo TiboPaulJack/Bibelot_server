@@ -121,10 +121,7 @@ class modelController extends coreController {
    * @returns {object} - return an object with the model created
    */
   async create(req, res, next) {
-    // debug("modelController");
-    // debug("userid", req.decoded.id)
-
-    // debug(req.files);
+   
     debug(req.body);
 
     // GET PATH OF THE MODEL AND THE PICTURE
@@ -141,7 +138,7 @@ class modelController extends coreController {
     req.body.data = pathModel;
     req.body.picture = pathPicture;
 
-    req.body = { ...req.body, user_id: req.decoded.id };
+    req.body = { ...req.body, user_id: req.decodedId };
 
     const response = await this.dataMapper.create(req.body);
 
@@ -157,6 +154,9 @@ class modelController extends coreController {
    * @returns {object} - return an object with the model updated
    */
   async update(req, res, next) {
+    
+    debug('REQ BODY UPDATE',req.body);
+    
     const response = await this.dataMapper.update(req.params.id, req.body);
 
     res.status(200).json(response);
@@ -172,7 +172,8 @@ class modelController extends coreController {
    */
   async delete(req, res, next) {
     debug("delete");
-
+    debug("id", req.params.id);
+    
     const findPath = await this.dataMapper.getAll({ id: req.params.id });
 
     const modelPath = findPath[0].data;
@@ -182,6 +183,10 @@ class modelController extends coreController {
 
     deleteFile(modelPath);
     deleteFile(picturePath);
+    
+    if (deleteFile instanceof Error) {
+      return next(Error);
+    }
 
     const response = await this.dataMapper.delete(req.params.id);
     debug("response", response);
@@ -189,39 +194,7 @@ class modelController extends coreController {
     res.status(204).json(response);
   }
 
-  /**
-   * @description - method for get limited models
-   * @method - getLimited
-   * @param {object} req - request
-   * @param {object} res - response
-   * @param {function} next - next middleware
-   * @returns {object} - return an object with the limited models
-   */
-  async getLimited(req, res, next) {
-    const response = await this.dataMapper.getLimited(req.query);
-    debug("response", response);
-
-    const allModels = [];
-    for (const element of response) {
-      const picture = await sendPictureToBuffer(element.picture);
-
-      const model = {
-        id: element.id,
-        name: element.name,
-        category: element.category,
-        pseudo: element.pseudo,
-        like: element.likes,
-        picture,
-      };
-      allModels.push(model);
-    }
-
-    if (response instanceof Error) {
-      return next(response);
-    }
-
-    res.status(200).json(allModels);
-  }
+  
 }
 
 /**

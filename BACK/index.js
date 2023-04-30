@@ -8,6 +8,7 @@ const express = require("express");
 const router = require("./app/routers");
 const port = process.env.PORT || 3000;
 const app = express();
+const bodyParser = require("body-parser");
 
 
 //url encoded
@@ -30,6 +31,8 @@ app.use(timeout("1m"));
 app.use(function(req, res, next){
   if (!req.timedout) next();
 });
+
+app.use(bodyParser.json());
 
 app.use(router);
 

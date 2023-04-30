@@ -1,7 +1,7 @@
 const express = require('express');
 const handlerController = require('../controllers/handlerController');
 const likesController = require('../controllers/likesController');
-const tockenCheck = require('../utils/user/tokenCheck');
+const tockenCheck = require('../utils/middlewares/tokenCheck');
 const errorHandler = require('../utils/errorControl/errorHandler');
 
 const router = express.Router();

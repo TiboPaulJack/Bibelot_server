@@ -7,6 +7,7 @@ import ProductPage from "./components/ProductPage/ProductPage.jsx";
 import ProductDetails from "./components/ProductDetails/ProductDetails.jsx";
 import Auth from "./components/Connection/Auth.jsx";
 import UserPage from "./components/UserPage/UserPage.jsx";
+import { tokenCheck } from "./utils/TokenCheck.js";
 
 
 export const UserContext = createContext({
@@ -22,7 +23,9 @@ export const UserContext = createContext({
 
 function App() {
   
-  
+  useEffect(() => {
+    tokenCheck();
+  });
   
   
   useEffect(() => {
@@ -31,7 +34,7 @@ function App() {
     }else{
       setLogged(false);
     }
-  })
+  });
   
   
   const [user, setUser] = useState('');

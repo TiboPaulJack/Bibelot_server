@@ -11,6 +11,8 @@ const debug = require("debug")("3db: oldPictureDelete");
  */
 
 const oldPictureDelete = async (oldPicture) => {
+  
+  debug("oldPicture", oldPicture)
   try {
     if (oldPicture.picture === "uploads/avatar/default.png") {
       console.debug("SAME");

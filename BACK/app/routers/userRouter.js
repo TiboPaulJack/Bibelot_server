@@ -22,7 +22,16 @@ const schema = require("../utils/validation/schema");
 const errorHandler = require("../utils/errorControl/errorHandler");
 const upload = require("../utils/multer/multerConfig")();
 const checkAvailability = require("../utils/middlewares/CheckUserAvailability");
-const tokenCheck = require("../utils/user/tokenCheck");
+const tokenCheck = require("../utils/middlewares/tokenCheck");
+
+
+
+router.post(
+  "/check",
+  tokenCheck,
+  handlerController(userController.checkOrRenewToken.bind(userController)
+));
+
 
 
 /**

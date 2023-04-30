@@ -5,22 +5,22 @@ import { UserContext } from "../../App.jsx";
 export default function UserDeleteConfirm({ setDeleteConfirm }) {
   
   const { userId } = useContext(UserContext)
-  console.log('userId', userId)
+  
   
   const handleSubmit = (e) => {
     e.preventDefault();
     
-    
-    
+    console.log('userId', userId)
+   
     fetch(baseHost + `/user/delete/${userId}`, {
       method: "DELETE",
       headers: {
-        'authorization': `Bearer ${localStorage.getItem("token")} `,
-      }
-      }).then((res) => res.json()
-      ).then((data) =>
+        'authorization': `Bearer ${ localStorage.getItem( "token" ) } `,
+      },
+      }).then((res) =>
       {
-        if (data.status === 200) {
+        if (res.status === 200) {
+          console.log(res.status, res.message)
           localStorage.removeItem("token")
           window.location = "/"
         }
