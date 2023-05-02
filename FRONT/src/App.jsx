@@ -23,9 +23,15 @@ export const UserContext = createContext({
 
 function App() {
   
+  const [user, setUser] = useState('');
+  const [userId, setUserId] = useState(0);
+  const [logged, setLogged] = useState(false);
+  
+  
+  
   useEffect(() => {
     tokenCheck();
-  });
+  }, [user, logged, userId]);
   
   
   useEffect(() => {
@@ -34,12 +40,9 @@ function App() {
     }else{
       setLogged(false);
     }
-  });
+  }, []);
   
   
-  const [user, setUser] = useState('');
-  const [userId, setUserId] = useState(0);
-  const [logged, setLogged] = useState(false);
  
   
   const logout = () => {

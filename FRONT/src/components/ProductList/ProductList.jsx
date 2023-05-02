@@ -6,8 +6,10 @@ import BaseHost from "../../assets/baseHost.js";
 
 export default function ProductList() {
 
-  const Navigate = useNavigate();
   const [cards, setCards] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  
+  
 
 
   useEffect(() => {
@@ -22,22 +24,48 @@ export default function ProductList() {
           } );
         })
         .then(data => setCards(data));
+      console.log(cards)
   }, []);
   
-
-
+  
   return (
     <div className="productList">
-      {cards.map((card) => (
-        <ProductCard
-          id={card.id}
-          key={card.id}
-          pseudo={card.pseudo}
-          name={card.name}
-          like={card.like}
-          url={card.picture}
-        />
-      ))}
+      {isLoading &&
+        (Array.from({ length: 12 }).map((_, index) => ({
+          id: index,
+          pseudo: "",
+          name: "",
+          like: "",
+          picture: "",
+        })).map((card) => (
+          <ProductCard
+            id={card.id}
+            key={card.id}
+            pseudo={card.pseudo}
+            name={card.name}
+            like={card.like}
+            tags={card.tags}
+            url={card.picture}
+            setIsLoading={setIsLoading}
+            isLoading={isLoading}
+          />
+        )))
+      }
+      {!isLoading &&
+        cards.map((card) => (
+          <ProductCard
+            id={card.id}
+            key={card.id}
+            pseudo={card.pseudo}
+            name={card.name}
+            tags={card.tags}
+            like={card.like}
+            url={card.picture}
+            isLoading={isLoading}
+          />
+        ))
+      }
     </div>
   );
+  
 }

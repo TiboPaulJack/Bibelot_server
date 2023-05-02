@@ -38,7 +38,7 @@ const schema = {
 		/*picture: Joi.string(),*/
 		tag: Joi.string().required(),
 		user_id: Joi.number(),
-		category_id: Joi.string()
+		category_id: Joi.number()
 	}).options({ convert: true }),
 
 	model_update: Joi.object({

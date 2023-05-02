@@ -41,6 +41,18 @@ export default function ProductAdd ({ rendered })  {
     AddProduct(formData);
   }
   
+  const handleTags = (e) => {
+    const tags = e.target.value.split(" ");
+    const tagsList = document.querySelector(".productAdd__tagsList");
+    tagsList.innerHTML = "";
+    tags.forEach((tag) => {
+      const tagDiv = document.createElement("div");
+      tagDiv.classList.add("productAdd__tag");
+      tagDiv.innerHTML = tag;
+      tagsList.appendChild(tagDiv);
+    })
+  }
+  
     return (
       <div className="productAdd">
         <button className="productAdd__close"
@@ -50,11 +62,11 @@ export default function ProductAdd ({ rendered })  {
         <form className="productAdd__form" onSubmit={handleSubmit}>
           <label>Product Name</label>
           <input type="text"
-                 placeholder="Product Name"
                  name="name"
+                 required
           />
           <label>Category</label>
-          <select name="category" id="category">
+          <select name="category_id" id="category" required>
             <option value="all">All</option>
             {
               categories.map((category) => (
@@ -62,30 +74,31 @@ export default function ProductAdd ({ rendered })  {
               ))
             }
           </select>
-          <label>Product Description</label>
+          <label>Product Description </label>
           <input type="text"
-                 placeholder="Product Description"
                  name="description"
+                 required
           />
           <label>Is available to download ?</label>
-          <select name="download">
+          <select name="download" required>
             <option value="true">Yes</option>
             <option value="false">No</option>
           </select>
           <label>Product Image</label>
           <input type="file"
-                 placeholder="Image"
                  name="picture"
+                 required
           />
           <label>Product 3d File</label>
           <input type="file"
-                 placeholder="3D File"
                  name="data"
+                 required
           />
           <label>Tags</label>
           <input type="text"
-                 placeholder="Tags"
+                 onChange={handleTags}
                  name="tag"
+                 required
           />
           <button className="productAdd__button" type="submit">Add</button>
         </form>

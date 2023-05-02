@@ -33,7 +33,9 @@ class modelController extends coreController {
       req.query.hasOwnProperty("category") ||
       req.query.hasOwnProperty("pseudo")
     ) {
-      response = await this.dataMapper.getAllModelsByCategoryOrPseudo(req.query);
+      response = await this.dataMapper.getAllModelsByCategoryOrPseudo(
+        req.query
+      );
     } else {
       debug("no query");
       response = await this.dataMapper.getAllModels();
@@ -42,8 +44,8 @@ class modelController extends coreController {
     if (response instanceof Error) {
       throw response;
     }
-
-    debug("reponse", response);
+    
+    debug("response", response)
 
     const allModels = [];
     for (const element of response) {
@@ -55,6 +57,7 @@ class modelController extends coreController {
         category: element.category,
         pseudo: element.pseudo,
         like: element.likes,
+        tags : element.tag,
         picture,
       };
       allModels.push(model);
@@ -121,7 +124,6 @@ class modelController extends coreController {
    * @returns {object} - return an object with the model created
    */
   async create(req, res, next) {
-   
     debug(req.body);
 
     // GET PATH OF THE MODEL AND THE PICTURE
@@ -154,9 +156,8 @@ class modelController extends coreController {
    * @returns {object} - return an object with the model updated
    */
   async update(req, res, next) {
-    
-    debug('REQ BODY UPDATE',req.body);
-    
+    debug("REQ BODY UPDATE", req.body);
+
     const response = await this.dataMapper.update(req.params.id, req.body);
 
     res.status(200).json(response);
@@ -173,7 +174,7 @@ class modelController extends coreController {
   async delete(req, res, next) {
     debug("delete");
     debug("id", req.params.id);
-    
+
     const findPath = await this.dataMapper.getAll({ id: req.params.id });
 
     const modelPath = findPath[0].data;
@@ -183,7 +184,7 @@ class modelController extends coreController {
 
     deleteFile(modelPath);
     deleteFile(picturePath);
-    
+
     if (deleteFile instanceof Error) {
       return next(Error);
     }
@@ -193,8 +194,6 @@ class modelController extends coreController {
 
     res.status(204).json(response);
   }
-
-  
 }
 
 /**

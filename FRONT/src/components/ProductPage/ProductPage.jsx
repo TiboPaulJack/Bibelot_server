@@ -1,4 +1,3 @@
-import Footer from "../Footer/Footer.jsx";
 import Header from "../Header/Header.jsx";
 import './productPage.css'
 import ProductFilter from "../ProductFilter/ProductFilter.jsx";
@@ -28,7 +27,6 @@ export default function ProductPage() {
             <ProductFilter categories={categories} />
             <ProductList />
           </div>
-        <Footer />
       </>
 
 

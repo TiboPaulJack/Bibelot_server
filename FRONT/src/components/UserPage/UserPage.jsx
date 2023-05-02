@@ -1,6 +1,5 @@
 import "./userPage.css";
 import Header from "../Header/Header.jsx";
-import Footer from "../Footer/Footer.jsx";
 import UserBanner from "./UserBanner.jsx";
 import UserProducts from "./UserProducts.jsx";
 import { useContext, useEffect, useState } from "react";
@@ -93,7 +92,7 @@ export default function UserPage() {
           
         </div>
       </div>
-      <Footer />
+      
     </>
   );
 }

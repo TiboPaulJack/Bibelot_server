@@ -25,27 +25,26 @@ export default function Header(props) {
   return (
     <header className="header">
       <h1 className="header__title" onClick={() => navigate("/")}>
-        Titre
+        Bibelot
       </h1>
 
       <nav className="header__nav">
-        <button className="nav__button" onClick={() => navigate("/models")}>
+        <button className="nav__button-models" onClick={() => navigate("/models")}>
           Models
         </button>
-        
         {logged &&
           <>
           <button className="nav__button" onClick={handleProfile}>
             Profile
           </button>
-          <button className={"auth__button"} onClick={handleLogout}>
+          <button className="auth__button-logout" onClick={handleLogout}>
           Logout
           </button>
           </>
         }
         
         {!logged &&
-          <button className={"auth__button"} onClick={() => navigate("/auth")}>
+          <button className="auth__button-login" onClick={() => navigate("/auth")}>
             Login
           </button>
         }

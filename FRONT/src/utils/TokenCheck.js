@@ -12,7 +12,6 @@ export function tokenCheck () {
   }).then((response) => {
     if (response.status === 401) {
       localStorage.clear();
-      window.location.reload();
     }
     if (response.status === 200) {
       return response.json()

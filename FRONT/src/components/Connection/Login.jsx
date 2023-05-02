@@ -1,6 +1,7 @@
 import baseHost from "../../assets/baseHost.js";
 import { useContext } from "react";
 import { UserContext } from "../../App.jsx";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
   const { logged, setLogged } = useContext(UserContext);
@@ -8,6 +9,8 @@ export default function Login() {
   const { userId, setUserId } = useContext(UserContext);
   const { logout } = useContext(UserContext);
 
+  const navigate = useNavigate();
+  
   const login = async (formData) => {
     // Convert the formData to a URLSearchParams object
     const form = new URLSearchParams(formData);
@@ -23,7 +26,7 @@ export default function Login() {
         setUserId(data.userId);
         setUser(data.pseudo);
         localStorage.setItem("token", data.token);
-        /*window.location = "/";*/
+        navigate("/user")
         setInterval(() => {
           logout()
         } , 60 * 60 * 1000) // 1 hour
@@ -46,18 +49,17 @@ export default function Login() {
   return (
     <div className="login">
       <div className="login__form">
-        <div className="login__form__title">Login</div>
         <form onSubmit={handleSubmit}>
           <div className="login__form__input">
+            <legend><label htmlFor="email">Email</label></legend>
             <input type="text"
                    name="email"
-                   placeholder="Email"
             />
           </div>
           <div className="login__form__input">
+            <legend><label htmlFor="password">Password</label></legend>
             <input type="password"
                    name="password"
-                   placeholder="Password"
             />
           </div>
           <div className="login__form__button">

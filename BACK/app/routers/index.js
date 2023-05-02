@@ -4,7 +4,7 @@ const router = express.Router();
 
 const userRouter = require("./userRouter");
 const modelRouter = require("./modelRouter");
-
+const commentsRouter = require("./commentsRouter");
 const categoryRouter = require("./categoryRouter");
 const likesRouter = require("./likesRouter");
 
@@ -23,6 +23,7 @@ const likesRouter = require("./likesRouter");
  */
 router.use("/api/user", userRouter);
 router.use("/api/model", modelRouter);
+router.use("/api/comments", commentsRouter);
 router.use("/api/category", categoryRouter);
 
 

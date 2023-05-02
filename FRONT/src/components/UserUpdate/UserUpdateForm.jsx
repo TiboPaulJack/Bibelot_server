@@ -24,32 +24,32 @@ export default function UserUpdateForm({ rendered, userData, setDeleteConfirm, s
       </button>
       <div className="userUpdate__form">
         <form className="userEditForm" onSubmit={handleSubmit}>
-          <label>Name</label>
+          <legend><label>Name</label></legend>
           <input type="text"
                  name="firstname"
                  placeholder={userData.firstname}
                  onChange={(e) => setFormData({...formData, firstname: e.target.value})}
           />
-          <label>Lastname</label>
+          <legend><label>Lastname</label></legend>
           <input type="text"
                  name="lastname"
                  placeholder={userData.lastname}
                  onChange={(e) => setFormData({...formData, lastname: e.target.value})}
           />
           
-          <label>Username</label>
+          <legend><label>Username</label></legend>
           <input type="text"
                  name="pseudo"
                  placeholder={userData.pseudo}
                  onChange={(e) => setFormData({...formData, pseudo: e.target.value})}
           />
-          <label>Email</label>
+          <legend><label>Email</label></legend>
           <input type="text"
                  name="email"
                  placeholder={userData.email }
                  onChange={(e) => setFormData({...formData, email: e.target.value})}
           />
-          <label>Avatar Picture</label>
+          <legend><label>Avatar Picture</label></legend>
           <input type="file"
                  name="picture"
                  onChange={(e) => setFormData({...formData, picture: e.target.files[0]})}

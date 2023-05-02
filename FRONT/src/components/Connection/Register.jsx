@@ -1,4 +1,3 @@
-import baseApi from "../../assets/baseApi.js";
 import baseHost from "../../assets/baseHost.js";
 
 export default function Register() {
@@ -42,32 +41,43 @@ export default function Register() {
   return (
     <div className="register">
       <div className="register__form">
-        <div className="register__form__title">Register</div>
         <form onSubmit={handleSubmit}>
           <div className="register__form__input">
-            <input type="text" name="firstname" placeholder="First Name" />
+            <legend><label htmlFor="firstname">First Name</label></legend>
+            <input type="text"
+                   name="firstname"
+            />
           </div>
+          <legend><label htmlFor="lastname">Last Name</label></legend>
           <div className="register__form__input">
-            <input type="text" name="lastname" placeholder="Last Name" />
+            <input type="text"
+                   name="lastname"
+            />
           </div>
+          <legend><label htmlFor="pseudo">Username</label></legend>
           <div className="register__form__input">
-            <input type="text" name="pseudo" placeholder="Username" />
+            <input type="text"
+                   name="pseudo"
+            />
           </div>
+          <legend><label htmlFor="email">Email</label></legend>
           <div className="register__form__input">
-            <input type="text" name="email" placeholder="Email" />
+            <input type="text"
+                   name="email"
+            />
           </div>
+          <legend><label htmlFor="password">Password</label></legend>
           <div className="register__form__input">
-            <input type="text" name="password" placeholder="Password" />
+            <input type="text"
+                   name="password"
+            />
           </div>
+          <legend><label htmlFor="passwordConfirm">Confirm Password</label></legend>
           <div className="register__form__input">
             <input
               type="text"
               name="passwordConfirm"
-              placeholder="Confirm Password"
             />
-          </div>
-          <div className="register__form__input">
-            <input type="file" accept="image/*" name="picture" placeholder="Avatar" />
           </div>
           <div className="register__form__button">
             <button type="submit">Register</button>

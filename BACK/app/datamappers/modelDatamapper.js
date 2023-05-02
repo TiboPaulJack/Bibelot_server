@@ -63,6 +63,7 @@ class modelDatamapper extends CoreDataMapper {
     const query = `SELECT "model"."id",
                           "model"."picture",
                           "model"."name",
+                          "model"."tag",
                           "category"."name"                  AS "category",
                           "user"."pseudo",
                           COUNT("model_has_like"."model_id") AS "likes"
@@ -78,7 +79,6 @@ class modelDatamapper extends CoreDataMapper {
     if (response.rowCount === 0) {
       return new NoContentError();
     }
-    
     return response.rows;
   }
   

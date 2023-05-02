@@ -1,37 +1,48 @@
-import baseHost from "../../assets/baseHost.js";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import UserProductListItem from "./UserProductListItem.jsx";
 
 
-export default function UserProductList ({rendered, name, id, setSelectedId }) {
+export default function UserProductList ({rendered, userProducts, setSelectedId }) {
   
+  const [isLoading, setIsLoading] = useState(true);
   
-  
-  
-  const handleEdit = () => {
-    rendered("ProductUpdate")
-    setSelectedId(id)
-  }
-  
-  const handleDelete = (id) => {
-    rendered("ProductDelete")
-    setSelectedId(id)
-  }
+  useEffect(() => {
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
+  }, [userProducts]);
   
   
   
   return (
-    <div className="userProducts__list">
-      <div className="userProducts__item">
-        <span className="userProducts__item__name">{name}</span>
-        <span className="userProducts__item__likes">TO PLUG</span>
-        <span className="userProducts__item__edit" onClick={handleEdit}>
-                Edit</span>
-        <span className="userProducts__item__delete"
-              onClick={() => handleDelete(id)}
-        >
-                Delete</span>
-      </div>
-    </div>
-  )
-  
+    <>
+      {isLoading && (
+        <div className="userProducts__list">
+          {Array.from({ length: 5 }).map((_, index) => (
+            <UserProductListItem
+              key={index}
+              name=""
+              isLoading={isLoading}
+              rendered={rendered}
+            />
+          ))}
+        </div>
+      )}
+      
+      {!isLoading && (
+        <div className="userProducts__list">
+          {userProducts.map((product) => (
+            <UserProductListItem
+              key={product._id}
+              name={product.name}
+              id={product._id}
+              isLoading={isLoading}
+              rendered={rendered}
+              setSelectedId={setSelectedId}
+            />
+          ))}
+        </div>
+      )}
+    </>
+  );
 }
