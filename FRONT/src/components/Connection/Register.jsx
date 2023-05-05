@@ -1,10 +1,11 @@
 import baseHost from "../../assets/baseHost.js";
 
-export default function Register() {
-  
-  
+export default function Register(props) {
+
+    const { smallScreenRegister, setSmallScreenRegister } = props
+
   const register = async (data) => {
-    
+
     try {
       const response = await fetch(baseHost + "/user/add", {
         method: "POST",
@@ -24,14 +25,14 @@ export default function Register() {
 
     const password = formData.get("password");
     const passwordConfirm = formData.get("passwordConfirm");
-    
+
     if (password !== passwordConfirm) {
       alert("Passwords are not the same");
       return;
     }
     // Delete passwordConfirm from the form data
     formData.delete("passwordConfirm");
-    
+
     // Send the data to the API
     register(formData).then((response) => {
       console.log("response API :", response);
@@ -39,7 +40,7 @@ export default function Register() {
   };
 
   return (
-    <div className="register">
+    <div className={smallScreenRegister ? "register visible" : "register"}>
       <div className="register__form">
         <form onSubmit={handleSubmit}>
           <div className="register__form__input">

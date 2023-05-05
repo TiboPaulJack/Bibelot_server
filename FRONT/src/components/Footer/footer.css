@@ -18,6 +18,7 @@ footer{
     justify-content: space-around;
     align-items: center;
     color: white;
+
 }
 
 .footer__icons{
@@ -27,11 +28,13 @@ footer{
     justify-content: space-around;
     align-items: center;
     color: white;
+
 }
 .social-link{
     width: 1.5rem;
     height: 1.5rem;
     transition: color 200ms ease-in-out;
+    cursor: pointer;
 }
 
 .social-link:hover{
@@ -41,6 +44,10 @@ footer{
 
 footer li:hover{
     color: var(--Portage-Glue);
+}
+
+footer li{
+    cursor: pointer;
 }
 
 

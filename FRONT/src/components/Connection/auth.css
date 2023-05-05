@@ -5,9 +5,9 @@
     box-sizing: border-box;
     justify-content: space-around;
     margin: auto;
-    height: 82%;
     width: 100%;
     overflow: hidden;
+    height: 90%;
 
 }
 
@@ -37,6 +37,13 @@ legend{
     height: 100%;
     background-color: var(--Jungle-Green);
     opacity: 0.7;
+}
+.spanAccount{
+    display: none;
+    cursor: pointer;
+}
+.spanAccount:hover{
+    text-decoration: underline;
 }
 
 .register{
@@ -89,6 +96,7 @@ legend{
     transition: 0.3s;
     cursor: pointer;
     margin-top: 2vh;
+    margin-bottom: 2vh;
 }
 .login button:hover{
     background-color:  var(--Matisse-Blue);
@@ -119,3 +127,57 @@ legend{
 
 
 
+.hidden{
+    display: none;
+}
+
+
+@media (max-width: 1000px) {
+
+    .spanAccount{
+        display: initial;
+    }
+    .login input{
+        width: 100%;
+    }
+    .register input{
+        width: 120%;
+    }
+    .login button{
+        width: calc(100% + 12px)
+    }
+    .register button{
+        width: calc(120% + 12px);
+    }
+
+    .register{
+        display: none;
+
+    }
+    .register:not(:hover){
+
+    }
+    .login:not(:hover) {
+
+    }
+    .register form{
+    }
+    .register label{
+    }
+    .register button{
+    }
+    .auth{
+    }
+
+    .visible {
+        display:flex;
+        width: 100%;
+
+        margin: auto;
+    }
+    .login{
+        width: 100%;
+        border: none;
+    }
+
+}

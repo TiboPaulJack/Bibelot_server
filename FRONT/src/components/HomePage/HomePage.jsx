@@ -8,12 +8,12 @@ import Footer from "../Footer/Footer.jsx";
 export default function HomePage() {
 
   return (
-
-
-    <div className="homePage">
+    <>
       <Header />
-      <Hero />
-      <Footer />
-    </div>
+        <div className="homePage">
+          <Hero />
+        </div>
+    <Footer />
+    </>
   )
 }

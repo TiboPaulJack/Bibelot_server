@@ -8,26 +8,19 @@ export default function ProductCard(props) {
   const navigate = useNavigate();
   const {isLoading, setIsLoading} = props;
   const [likesCount, setLikesCount] = useState(0);
-  
+
   const tags = props.tags;
-  console.log(tags)
+  const id = props.id;
+
   const setLikesCountFromChild = (count) => {
     setLikesCount(count)
   }
 
-  const id = props.id;
-  
-  useEffect(() => {
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 2000);
-  }, [props.url]);
-  
+
   const handleClick = () => {
     !isLoading &&
     navigate(`/model/${id}`)
   }
-  
 
   return (
     <div className={isLoading ? "productCard isLoading" : "productCard"}>
@@ -59,8 +52,8 @@ export default function ProductCard(props) {
               isLoading ? "card__infos-author isLoading" : "card__¨infos-author"
             }
           >
-          
-          
+
+
           </div>
         </div>
         <div className="card__infos-right">
@@ -75,7 +68,7 @@ export default function ProductCard(props) {
           <span className="tag-item">{ tag }</span>
         ) ) }
         </div>
-      
+
     </div>
   );
 }

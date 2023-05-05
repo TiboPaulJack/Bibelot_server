@@ -9,31 +9,14 @@ export default function Sidebar() {
   const navigate = useNavigate();
   const { setSideBar } = useContext(UserContext);
   const { sideBarActive } = useContext(UserContext);
-  
+
   const handleClick = () => {
     setSideBar();
   }
 
   return (
     <div className={sideBarActive ? "sidebar active" : "sidebar"}>
-      <button className="sidebar__btn" onClick={handleClick}>
-        <svg
-          width="34px"
-          height="34px"
-          strokeWidth="2.4"
-          viewBox="0 0 24 24"
-          fill="none"
-          color="#000000"
-        >
-          <path
-            d="M3 5h18M3 12h18M3 19h18"
-            stroke="#000000"
-            strokeWidth="2.4"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          ></path>
-        </svg>
-      </button>
+
       <ul className="sidebar__list">
         <li className="sidebar__list-item" onClick={() => navigate("/user")}>
           Profile

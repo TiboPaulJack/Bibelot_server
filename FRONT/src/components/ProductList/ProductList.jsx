@@ -8,8 +8,8 @@ export default function ProductList() {
 
   const [cards, setCards] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  
-  
+
+
 
 
   useEffect(() => {
@@ -23,11 +23,11 @@ export default function ProductList() {
             return item;
           } );
         })
-        .then(data => setCards(data));
-      console.log(cards)
+        .then(data => setCards(data))
+        .then(() => setIsLoading(false))
   }, []);
-  
-  
+
+
   return (
     <div className="productList">
       {isLoading &&
@@ -46,7 +46,6 @@ export default function ProductList() {
             like={card.like}
             tags={card.tags}
             url={card.picture}
-            setIsLoading={setIsLoading}
             isLoading={isLoading}
           />
         )))
@@ -67,5 +66,5 @@ export default function ProductList() {
       }
     </div>
   );
-  
+
 }

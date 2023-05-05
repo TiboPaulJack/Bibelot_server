@@ -9,13 +9,14 @@ header{
     border-bottom: 2px solid black;
     box-sizing: content-box;
     font-family: 'Poppins', sans-serif;
-    font-size: 0.8em;
 }
 header h1{
-    margin-left: 1%;
+    margin-left: 2%;
     cursor: pointer;
+    font-size: 2.3em;
     font-family: 'Righteous', cursive;
     letter-spacing: 4px;
+    align-self: center;
 }
 .header__nav{
     display: flex;
@@ -46,6 +47,12 @@ header button{
 
     .header__nav{
         display: none;
+    }
+
+    header{
+        justify-content: space-between;
+        padding: 0 15px 0 10px;
+
     }
 
 
