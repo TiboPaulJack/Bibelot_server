@@ -42,3 +42,36 @@ footer{
 footer li:hover{
     color: var(--Portage-Glue);
 }
+
+
+@media (max-width: 750px) {
+
+    .footer__list{
+        display: none;
+    }
+
+    .footer{
+        justify-content: flex-end;
+    }
+    .footer__icons{
+        gap: 30px;
+        margin-right: 30px;
+    }
+
+}
+
+@media (max-width: 450px) {
+
+    .footer__list{
+        display: none;
+    }
+
+    .footer{
+        justify-content: center;
+    }
+    .footer__icons{
+        gap: 0;
+        margin-right: 0;
+    }
+
+}

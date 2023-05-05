@@ -57,16 +57,6 @@
     border: #212121 solid 2px;
     box-shadow: var(--box-shadow);
 }
-.box-likes{
-    display: flex;
-    border: blueviolet solid 1px;
-    position: relative ;
-    width: 20%;
-    margin-top: 2%;
-    left:5%;
-    z-index: 2;
-
-}
 
 /*-----------------BOTTOM-----------------*/
 .productDetails__bottom{
@@ -84,8 +74,7 @@
     flex-direction: column;
     width: 50%;
     height: 100%;
-    overflow: scroll;
-
+    overflow: hidden;
     border: #212121 solid 2px;
     box-shadow: var(--box-shadow);
 

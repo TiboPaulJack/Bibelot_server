@@ -60,7 +60,7 @@ class likesDatamapper extends coreDatamapper {
         Object.values(id)[0],
       ]);
 
-      return { total_likes: deleteNewLikeCount.rows[0], status: "unliked" };
+      return { total_likes: deleteNewLikeCount.rows[0], liked: false };
     }
 
     /**
@@ -81,7 +81,7 @@ class likesDatamapper extends coreDatamapper {
       return new notFoundError("not found");
     }
 
-    return { total_likes: newLikeCount.rows[0], status: "liked" };
+    return { total_likes: newLikeCount.rows[0], liked: true };
   }
 
   /**

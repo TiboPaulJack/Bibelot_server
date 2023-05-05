@@ -6,6 +6,7 @@ import { UserContext } from "../../App.jsx";
 
 export default function ProductAdd ({ rendered })  {
   
+  const [tags, setTags] = useState([]); // ["tag1", "tag2", "tag3"
   const [categories, setCategories] = useState([]);
   const { logout } = useContext(UserContext);
   
@@ -38,19 +39,19 @@ export default function ProductAdd ({ rendered })  {
     e.preventDefault();
     
     const formData = new FormData(e.target);
+    formData.delete("tag");
+    const formattedTags = `{${tags.join(',')}}`;
+    formData.append("tag", formattedTags);
+    console.log(formData.get("tag"))
     AddProduct(formData);
   }
   
   const handleTags = (e) => {
-    const tags = e.target.value.split(" ");
-    const tagsList = document.querySelector(".productAdd__tagsList");
-    tagsList.innerHTML = "";
-    tags.forEach((tag) => {
-      const tagDiv = document.createElement("div");
-      tagDiv.classList.add("productAdd__tag");
-      tagDiv.innerHTML = tag;
-      tagsList.appendChild(tagDiv);
-    })
+    const tagInput = document.getElementById("tag");
+    setTags([...tags, tagInput.value]);
+    console.log(tags)
+    tagInput.value = "";
+    
   }
   
     return (
@@ -95,11 +96,30 @@ export default function ProductAdd ({ rendered })  {
                  required
           />
           <label>Tags</label>
-          <input type="text"
-                 onChange={handleTags}
-                 name="tag"
-                 required
-          />
+          <div className="productAdd__tagsList">
+          
+          </div>
+          <div className="box-tags">
+            <input className='productAdd__tags'
+                   id="tag"
+                   type="text"
+                   name="tag"
+                   
+            />
+            <button className="addTag-button"
+                    type="button"
+                    onClick={handleTags}
+            >
+              Add
+            </button>
+          </div>
+          <div className="productAdd__tag-list">
+            {
+              tags.map((tag, index) => (
+                <span className="tag-item" key={index}>{tag}</span>
+              ))
+            }
+          </div>
           <button className="productAdd__button" type="submit">Add</button>
         </form>
       

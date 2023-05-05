@@ -27,7 +27,7 @@ app.use(cors({
 app.use(helmet());
 
 //timeout
-app.use(timeout("1m"));
+app.use(timeout("5m"));
 app.use(function(req, res, next){
   if (!req.timedout) next();
 });

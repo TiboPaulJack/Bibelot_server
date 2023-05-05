@@ -55,6 +55,8 @@
     height: 65%;
     margin: auto;
     padding: 2%;
+
+    overflow: scroll;
     background-color: white;
 }
 .userProducts{
@@ -73,7 +75,7 @@
 
 /*----------------USER-PRODUCT-LIST----------------*/
 .userProducts__list{
-    overflow: visible;
+    overflow: scroll;
 }
 
 .userProducts__item{

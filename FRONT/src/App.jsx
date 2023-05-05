@@ -8,12 +8,15 @@ import ProductDetails from "./components/ProductDetails/ProductDetails.jsx";
 import Auth from "./components/Connection/Auth.jsx";
 import UserPage from "./components/UserPage/UserPage.jsx";
 import { tokenCheck } from "./utils/TokenCheck.js";
+import Sidebar from "./components/Sidebar/Sidebar.jsx";
 
 
 export const UserContext = createContext({
   user: '',
   userId: 0,
   logged: false,
+  sideBarActive: false,
+  setSideBar: () => {},
   setLogged: () => {},
   setPseudo: () => {},
   setUserId: () => {},
@@ -26,8 +29,11 @@ function App() {
   const [user, setUser] = useState('');
   const [userId, setUserId] = useState(0);
   const [logged, setLogged] = useState(false);
+  const [sideBarActive, setSideBarActive] = useState(false);
   
-  
+  const setSideBar = () => {
+    setSideBarActive(!sideBarActive);
+  }
   
   useEffect(() => {
     tokenCheck();
@@ -52,8 +58,6 @@ function App() {
     localStorage.clear();
     window.location = "/";
   }
-  console.log("id", userId)
-  
   
   return (
     <div className="App">
@@ -64,8 +68,11 @@ function App() {
         setLogged: setLogged,
         userId: userId,
         setUserId: setUserId,
-        logout: logout
+        logout: logout,
+        setSideBar: setSideBar,
+        sideBarActive: sideBarActive
       }}>
+        {<Sidebar />}
         <Routes>
           <Route path="/model/:id" element={<ProductDetails />} />
           <Route path="/models" element={<ProductPage />} />

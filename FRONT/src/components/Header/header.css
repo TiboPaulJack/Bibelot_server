@@ -5,7 +5,7 @@ header{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    height: 8%;
+    height: 10%;
     border-bottom: 2px solid black;
     box-sizing: content-box;
     font-family: 'Poppins', sans-serif;
@@ -38,4 +38,15 @@ header button{
 }.auth__button-login:hover, .auth__button-logout:hover{
     background-color: #91A8ED;
     color: black;
+}
+
+
+
+@media (max-width: 750px) {
+
+    .header__nav{
+        display: none;
+    }
+
+
 }

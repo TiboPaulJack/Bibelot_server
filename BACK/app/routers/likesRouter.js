@@ -16,7 +16,7 @@ const router = express.Router();
  * @param {function} likesController.create - controller for add or remove a like for a model
  * @returns {object} - return an object with the like created or removed, return new like count
  */
-router.post('/add/:id', tockenCheck, handlerController(likesController.create.bind(likesController)));
+router.post('/:id', tockenCheck, handlerController(likesController.create.bind(likesController)));
 
 /**
  * @description - route for get the like count for a model

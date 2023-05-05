@@ -5,9 +5,13 @@
 .productUpdate{
     width: 40%;
     margin: auto;
+
 }
 
-
+.productAdd label{
+    font-size: 0.8em;
+    margin: 0;
+}
 
 .productAdd form,
 .productUpdate form{
@@ -41,10 +45,38 @@
     width: 100%;
     border-radius: 5px;
     border: black 1px solid;
-    background-color: var(--Citrine-White);
+    transition: 0.3s;
+    margin-bottom: 10px;
+
+}
+
+.box-tags{
+    width: 100%;
+    align-content: baseline;
+}
+.addTag-button{
+    height: 30px;
+    max-width: 30px;
+    border-radius: 5px;
+    border: black 1px solid;
+    background-color: black;
+    font-size: 0.8em;
+    color: white;
     transition: 0.3s;
     cursor: pointer;
-    margin-bottom: 10px;
+    margin: auto;
+}
+.productAdd__tags{
+    width: 80% !important;
+    align-self: auto;
+    height: 26px;
+}
+.tag-item{
+    font-size: 0.7em;
+    border: 1px black solid;
+    border-radius: 20px;
+    padding: 5px;
+    margin: 5px;
 }
 
 .productAdd form input[type="file"]{

@@ -8,6 +8,7 @@ import BaseHost from "../../assets/baseHost.js";
 import { useParams } from "react-router-dom";
 import Loader from "../Loader/Loader.jsx";
 import { tokenCheck } from "../../utils/TokenCheck.js";
+import Like from "../Like/Like.jsx";
 
 
 export default function ProductDetails() {
@@ -89,7 +90,6 @@ export default function ProductDetails() {
             </div>
           </div>
         </div>
-        <div className="box-likes">likes</div>
         <div className="productDetails__middle">
           <div className="productDetails__title">
             <h4>{name}</h4>

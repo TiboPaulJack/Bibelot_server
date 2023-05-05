@@ -27,7 +27,6 @@ class modelController extends coreController {
    */
   async getAll(req, res, next) {
     //ici test d'une condition pour savoir si on a un paramètre dans la requête req.query
-    debug(req.query);
     let response;
     if (
       req.query.hasOwnProperty("category") ||
@@ -45,7 +44,6 @@ class modelController extends coreController {
       throw response;
     }
     
-    debug("response", response)
 
     const allModels = [];
     for (const element of response) {
@@ -124,7 +122,6 @@ class modelController extends coreController {
    * @returns {object} - return an object with the model created
    */
   async create(req, res, next) {
-    debug(req.body);
 
     // GET PATH OF THE MODEL AND THE PICTURE
     const pathModel = req.files.data[0].path;
@@ -156,7 +153,6 @@ class modelController extends coreController {
    * @returns {object} - return an object with the model updated
    */
   async update(req, res, next) {
-    debug("REQ BODY UPDATE", req.body);
 
     const response = await this.dataMapper.update(req.params.id, req.body);
 
@@ -172,8 +168,6 @@ class modelController extends coreController {
    * @returns {object} - return an object with the model deleted
    */
   async delete(req, res, next) {
-    debug("delete");
-    debug("id", req.params.id);
 
     const findPath = await this.dataMapper.getAll({ id: req.params.id });
 
@@ -190,7 +184,6 @@ class modelController extends coreController {
     }
 
     const response = await this.dataMapper.delete(req.params.id);
-    debug("response", response);
 
     res.status(204).json(response);
   }
