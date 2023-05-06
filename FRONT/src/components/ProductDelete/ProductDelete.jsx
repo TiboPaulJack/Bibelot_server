@@ -3,10 +3,16 @@ import { UserContext } from "../../App.jsx";
 import { useContext } from "react";
 
 
-export default function ProductDelete({ rendered, id }) {
+export default function ProductDelete(props) {
   const { logout } = useContext(UserContext);
+  
+  const id = props.id;
+  const rendered = props.rendered;
+  const { setRefresh } = props;
+  
 
   const productDelete = (id) => {
+    
     
     fetch(baseHost + `/model/${id}`, {
       method: "DELETE",
@@ -14,6 +20,7 @@ export default function ProductDelete({ rendered, id }) {
         authorization: `Bearer ${localStorage.getItem("token")} `,
       },
     }).then((res) => {
+      setRefresh(true);
       if (res.status === 200) {
         return res.json();
       } else if (res.status === 401) {
@@ -33,7 +40,6 @@ export default function ProductDelete({ rendered, id }) {
       >
         X
       </button>
-      <span className="productDeleteConfirm__title">id:{id}</span>
       <h6 className="productDeleteConfirm__title">
         This action is irreversible, by clicking on confirm, this model will by
         deleted

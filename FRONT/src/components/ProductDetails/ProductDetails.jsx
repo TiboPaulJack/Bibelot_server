@@ -9,6 +9,7 @@ import { useParams } from "react-router-dom";
 import Loader from "../Loader/Loader.jsx";
 import { tokenCheck } from "../../utils/TokenCheck.js";
 import Like from "../Like/Like.jsx";
+import baseHost from "../../assets/baseHost.js";
 
 
 export default function ProductDetails() {
@@ -46,10 +47,34 @@ export default function ProductDetails() {
       .finally( () => { setModelFormat( format ) } )
   }
   
-  console.log("PRODUCT DETAILS", productDetail)
   const bitesToMb = (bites) => {
     return Math.round(bites / 1000000)
   }
+  
+  const handleDownload = async () => {
+    
+    if(download){
+      const response = await fetch(baseHost + `/model/glb/${ id }`);
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      
+      
+      const link = document.createElement('a');
+      
+      link.href = url
+      link.type = 'model/gltf-binary'; // Définir le type de fichier
+      link.download = `${name}.glb`;
+      
+      // Ajouter l'élément <a> à la page
+      document.body.appendChild(link);
+      
+      // Déclencher le téléchargement
+      link.click();
+    }
+    
+    
+  };
+  
   
   return (
     <>
@@ -95,7 +120,6 @@ export default function ProductDetails() {
             <h4>{name}</h4>
           </div>
           <div className="productDetails__description">
-            Description
             <p>{description}</p>
           </div>
         </div>
@@ -103,7 +127,12 @@ export default function ProductDetails() {
           <div className="bottom__comments">
             <ProductComments />
           </div>
-          <div className="bottom__tags"></div>
+          <div className="bottom__download">
+              
+              <button className="download__button" onClick={handleDownload}>Download</button>
+            
+            
+          </div>
         </div>
       </div>
       <Footer />

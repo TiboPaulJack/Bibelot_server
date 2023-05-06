@@ -6,7 +6,7 @@ import baseHost from "../../assets/baseHost.js";
 import { UserContext } from "../../App.jsx";
 
 
-export default function UserUpdate({ rendered, userData }) {
+export default function UserUpdate({ rendered, userData, setRefresh, refresh }) {
   
   const { logout } = useContext(UserContext)
   const [DeleteConfirm, setDeleteConfirm] = useState(false)
@@ -22,8 +22,6 @@ export default function UserUpdate({ rendered, userData }) {
       return  console.log("no change");
     }
     
-    console.log("formData before", formData)
-    
     const form = new FormData();
     for (const key in formData) {
       form.append(key, formData[key]);
@@ -36,14 +34,14 @@ export default function UserUpdate({ rendered, userData }) {
         'authorization': `Bearer ${localStorage.getItem("token")} `,
       },
     }).then((res) => {
+      setRefresh(true)
+      console.log("refresh", refresh)
       if (res.status === 401 ) {
         logout()
       }
       else if(res.status !== 200){
         console.error(res.status, res.message)
-        return
       }
-      window.location.reload()
     } )
   }
   

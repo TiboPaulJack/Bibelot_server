@@ -1,6 +1,6 @@
 // function for user signin
-const badInputError = require("../errorControl/badInputError");
-const userDatamapper = require("../../datamappers/userDatamapper");
+const badInputError = require("./errorControl/badInputError");
+const userDatamapper = require("../datamappers/userDatamapper");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();

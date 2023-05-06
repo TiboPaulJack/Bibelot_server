@@ -37,3 +37,22 @@ main{
 
 
 }
+
+
+.hero__search li{
+    list-style: none;
+    padding: 10px;
+    border: var(--box-border);
+    background-color: white;
+    cursor: pointer;
+}
+
+.hero__search li:hover{
+    background-color: #91A8ED;
+    color: white;
+}
+
+.result__name{
+    margin: auto;
+    display: inline-block;
+}

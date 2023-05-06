@@ -37,7 +37,10 @@ class CoreDatamapper {
       debug("query", query);
       // testing conditonals clauses in query
 
-      const response = await pool.query(query, Object.values(data));
+      debug("data", data);
+      debug("typeofobjectvaluesdata", typeof Object.values(data));
+      debug('objectvaluesdata', Object.values(data))
+      const response = await pool.query(query, [...Object.values(data)]);
 
       return response.rows;
     }

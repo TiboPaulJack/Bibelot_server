@@ -1,9 +1,9 @@
 // here we defenied the function that will be used to create a new user
-const userDatamapper = require("../../datamappers/userDatamapper");
+const userDatamapper = require("../datamappers/userDatamapper");
 const debug = require("debug")("3db: newUser");
-const badInputError = require("../errorControl/badInputError");
+const badInputError = require("./errorControl/badInputError");
 const bcrypt = require("bcrypt");
-const sendMail = require("../notifications/nodemailer");
+const sendMail = require("./nodemailer");
 const oldPictureDelete = require("./oldPictureDelete");
 
 /**

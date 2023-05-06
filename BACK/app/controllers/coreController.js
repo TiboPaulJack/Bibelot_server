@@ -1,6 +1,6 @@
 const debug = require("debug")("3db: CoreControllers");
 const userDatamapper = require("../datamappers/userDatamapper");
-const oldPictureDelete = require("../utils/user/oldPictureDelete");
+const oldPictureDelete = require("../utils/oldPictureDelete");
 
 /**
  * @description - controller for core, basic CRUD class, all other controllers will inherit from this class
@@ -23,15 +23,13 @@ class CoreController {
     const data = req.body;
     const response = await this.constructor.dataMapper.getAll(data);
 
-    if(response instanceof Error) {
+    if (response instanceof Error) {
       return next(response);
     }
-    
+
     if (response) {
       res.status(200).json(response);
     }
-    
-    
   }
 
   /**
@@ -46,7 +44,7 @@ class CoreController {
     const id = req.params.id;
 
     const response = await this.constructor.dataMapper.getOne(id);
-    
+
     if (response instanceof Error) {
       return next(response);
     }
@@ -68,11 +66,11 @@ class CoreController {
     debug("create OK");
 
     const response = await this.constructor.dataMapper.create(req.body);
-    
-    if(response instanceof Error) {
+
+    if (response instanceof Error) {
       return next(response);
     }
-    
+
     if (response) {
       res.status(201).json(response);
     }
@@ -91,11 +89,16 @@ class CoreController {
     const id = req.decodedId;
 
     // If the body is empty, returns an error
-    if (Object.entries(req.body).length === 0 && req.files.picture === undefined) {
+    if (
+      Object.entries(req.body).length === 0 &&
+      req.files.picture === undefined
+    ) {
       res.status(400).json({ message: "empty request - execution canceled" });
       return debug("empty request - execution canceled");
     }
-
+    
+    // Check if there is a picture in the request
+    // For delete the old picture and update the new one
     if (req.files.picture) {
       const OldPictureToDelete = await userDatamapper.getProfilePicture(id);
       await oldPictureDelete(OldPictureToDelete);
@@ -103,11 +106,11 @@ class CoreController {
     }
 
     const response = await userDatamapper.update(req.decodedId, req.body);
-    
+
     if (response instanceof Error) {
       return next(response);
     }
-    
+
     res.status(200).json(response);
   }
 

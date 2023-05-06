@@ -4,11 +4,13 @@ import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../App.jsx";
 
 
-export default function ProductAdd ({ rendered })  {
+export default function ProductAdd (props)  {
   
-  const [tags, setTags] = useState([]); // ["tag1", "tag2", "tag3"
+  const [tags, setTags] = useState([]);
   const [categories, setCategories] = useState([]);
   const { logout } = useContext(UserContext);
+  const { setRefresh } = props;
+  const { rendered } = props;
   
   useEffect(() => {
     fetch(BaseHost + '/category', {
@@ -26,6 +28,7 @@ export default function ProductAdd ({ rendered })  {
       },
       body: formData,
     }).then((res) => {
+      setRefresh(true);
       if (res.status === 200) {
         return res.json();
       } else if (res.status === 401) {

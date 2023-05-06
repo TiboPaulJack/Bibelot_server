@@ -20,7 +20,7 @@ const handlerController = require("../controllers/handlerController");
 const validator = require("../utils/validation/middlewareValidationUser");
 const schema = require("../utils/validation/schema");
 const errorHandler = require("../utils/errorControl/errorHandler");
-const upload = require("../utils/multer/multerConfig")();
+const upload = require("../utils/middlewares/multerConfig")();
 const checkAvailability = require("../utils/middlewares/CheckUserAvailability");
 const tokenCheck = require("../utils/middlewares/tokenCheck");
 

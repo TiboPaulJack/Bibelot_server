@@ -1,5 +1,5 @@
 const fs = require("fs");
-const NotFoundError = require("../errorControl/notFoundError");
+const NotFoundError = require("./errorControl/notFoundError");
 const debug = require("debug")("3db: sendModelToBuffer");
 
 

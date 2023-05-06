@@ -1,14 +1,17 @@
 
 export default function UserUpdateForm({ rendered, userData, setDeleteConfirm, setFormData, formData, ...props }) {
   
+  const { setRendered } = props;
   const updateUser = props.UpdateUser
   
   const handleSubmit = (e) => {
     e.preventDefault();
     
     updateUser(formData)
+      rendered("UserProducts");
+    };
     
-  }
+  
   
   
   

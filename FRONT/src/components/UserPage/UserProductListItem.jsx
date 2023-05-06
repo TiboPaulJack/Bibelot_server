@@ -13,6 +13,7 @@ export default function UserProductListItem (props) {
   
   const handleDelete = (id) => {
     rendered("ProductDelete")
+    console.log("id",id)
     setSelectedId(id)
   }
   

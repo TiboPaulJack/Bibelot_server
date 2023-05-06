@@ -14,9 +14,9 @@
     border: black solid 1px;
     box-shadow: var(--box-shadow);
 
+    justify-content: space-between;
     display: flex;
     flex-direction: row;
-
     height: 12%;
     width: 80%;
     margin: auto auto 0;
@@ -25,10 +25,13 @@
     background-color: white;
 }
 .userBanner__avatar{
-    object-fit: cover;
+    max-width: 20%;
+    max-height: 100%;
 }
 .userBanner img{
-    width: 100px;
+    height: 100%;
+    align-self: center;
+    max-height: 100%;
     aspect-ratio: 1/1;
     border-radius: 50%;
     object-fit: cover;
@@ -41,8 +44,22 @@
     margin-left: 20px;
 }
 .editProfile{
-    position: relative;
-    left: 50%;
+
+
+    justify-self: right;
+
+    width: 10%;
+
+
+    align-content: center;
+    background-color: black;
+    font-size: 0.8em;
+    color: white;
+    transition: 0.3s;
+    cursor: pointer;
+    align-self: center;
+    height: 30px;
+    border-radius: 5px;
 }
 
 
@@ -78,6 +95,8 @@
     overflow: scroll;
 }
 
+
+
 .userProducts__item{
     display: flex;
     flex-direction: row;
@@ -100,6 +119,7 @@
     background-color: black;
     font-size: 0.8em;
     color: white;
+    width: 10vw;
     transition: 0.3s;
     cursor: pointer;
     align-self: center;
@@ -121,8 +141,29 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    width: 100px;
 
+}
+
+
+.productDeleteConfirm__close{
+    width: 100%;
+    height: 30px;
+    border-radius: 5px;
+    border: black 1px solid;
+    background-color: black;
+    color: white;
+    transition: 0.3s;
+    cursor: pointer;
+    margin-top: 2vh;
+    margin-bottom: 2vh;
+}
+
+
+.productDeleteConfirm__close:hover{
+    background-color:  var(--Coral-Red);
+    color: black;
+    transform: translate(-0.25rem, -0.25rem);
+    box-shadow: 0.25rem 0.25rem 0 black;
 }
 /*-----------USER-PRODUCT-LIST-----------*/
 /*----------------LOADING----------------*/
@@ -138,6 +179,10 @@
     border: none;
 }
 
+.userProducts__item.isLoading{
+    background: var(--bg-color);
+}
+
 .userProducts__item__delete.isLoading,
 .userProducts__item__edit.isLoading{
     color: #eee;
@@ -146,4 +191,32 @@
 {
     color: #eee;
     border: none;
+}
+
+
+@media (max-width: 750px) {
+    .userProducts__button-add{
+        width: 10vw;
+        height: fit-content;
+        color: blue;
+    }
+
+    .userProducts__item span{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        font-size: 0.7em;
+    }
+
+    .userProducts__item{
+        height: 50px;
+    }
+
+
+    .userProducts__Buttons span{
+        width: 10vw;
+
+    }
+
+
 }

@@ -2,8 +2,8 @@ const coreController = require("./coreController");
 const modelDatamapper = require("../datamappers/modelDatamapper");
 const debug = require("debug")("3db: modelController");
 const fs = require("fs");
-const sendPictureToBuffer = require("../utils/model/sendPictureToBuffer");
-const deleteFile = require("../utils/model/deleteModel");
+const sendPictureToBuffer = require("../utils/sendPictureToBufferMODEL");
+const deleteFile = require("../utils/deleteModel");
 
 /**
  * @class modelController
@@ -26,7 +26,7 @@ class modelController extends coreController {
    * @returns {object} - return an object with all models
    */
   async getAll(req, res, next) {
-    //ici test d'une condition pour savoir si on a un paramètre dans la requête req.query
+    // Check if req.query has category or pseudo
     let response;
     if (
       req.query.hasOwnProperty("category") ||
@@ -35,6 +35,7 @@ class modelController extends coreController {
       response = await this.dataMapper.getAllModelsByCategoryOrPseudo(
         req.query
       );
+      // If not, get all models
     } else {
       debug("no query");
       response = await this.dataMapper.getAllModels();
@@ -43,9 +44,9 @@ class modelController extends coreController {
     if (response instanceof Error) {
       throw response;
     }
-    
 
     const allModels = [];
+    // Send all models to buffer
     for (const element of response) {
       const picture = await sendPictureToBuffer(element.picture);
 
@@ -55,7 +56,7 @@ class modelController extends coreController {
         category: element.category,
         pseudo: element.pseudo,
         like: element.likes,
-        tags : element.tag,
+        tags: element.tag,
         picture,
       };
       allModels.push(model);
@@ -80,8 +81,6 @@ class modelController extends coreController {
     }
 
     const glb = fs.readFileSync(response.data);
-
-    //   const buffer = await sendModelToBuffer(response.data);
 
     const object = {
       data: glb,
@@ -112,6 +111,20 @@ class modelController extends coreController {
 
     res.status(200).json(response);
   }
+  
+  async search(req, res, next) {
+    debug("searchcontroller")
+    
+    
+    const data = Object.values(req.query).toString();
+    
+    const response = await this.dataMapper.search(data);
+    
+    debug("res", response)
+    
+    res.status(200).json(response);
+    
+  }
 
   /**
    * @description - method for add model
@@ -122,7 +135,6 @@ class modelController extends coreController {
    * @returns {object} - return an object with the model created
    */
   async create(req, res, next) {
-
     // GET PATH OF THE MODEL AND THE PICTURE
     const pathModel = req.files.data[0].path;
     const pathPicture = req.files.picture[0].path;
@@ -153,7 +165,6 @@ class modelController extends coreController {
    * @returns {object} - return an object with the model updated
    */
   async update(req, res, next) {
-
     const response = await this.dataMapper.update(req.params.id, req.body);
 
     res.status(200).json(response);
@@ -168,8 +179,9 @@ class modelController extends coreController {
    * @returns {object} - return an object with the model deleted
    */
   async delete(req, res, next) {
+    const id = req.params.id;
 
-    const findPath = await this.dataMapper.getAll({ id: req.params.id });
+    const findPath = await this.dataMapper.getAll({ id: id });
 
     const modelPath = findPath[0].data;
 

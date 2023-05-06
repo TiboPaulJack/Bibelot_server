@@ -53,6 +53,7 @@ router.post(
 	handlerController(modelController.create.bind(modelController))
 );
 
+router.get('/search', handlerController(modelController.search.bind(modelController)))
 
 
 /**

@@ -1,12 +1,12 @@
 const coreController = require("./coreController");
 const userDatamapper = require("../datamappers/userDatamapper");
 const modelDatamapper = require("../datamappers/modelDatamapper");
-const add = require("../utils/user/newUser");
+const add = require("../utils/newUser");
 const debug = require("debug")("3db: userController");
-const signin = require("../utils/user/signin");
-sendPictureToBuffer = require("../utils/user/sendPictureToBuffer");
-const oldPictureDelete = require("../utils/user/oldPictureDelete");
-const deleteFile = require( "../utils/model/deleteModel" );
+const signin = require("../utils/signin");
+sendPictureToBuffer = require("../utils/sendPictureToBuffer");
+const oldPictureDelete = require("../utils/oldPictureDelete");
+const deleteFile = require( "../utils/deleteModel" );
 
 
 /**
@@ -44,6 +44,7 @@ class userController extends coreController {
     const userData = { ...req.body, picture };
 
     debug("userdata", userData);
+    // TODO : RENOMMER LA FONCTION ADD
     const addedUser = await add(req, res, next, userData);
     //we send mail to client forconfirm subscription
 

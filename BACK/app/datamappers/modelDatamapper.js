@@ -19,6 +19,29 @@ class modelDatamapper extends CoreDataMapper {
     super();
   }
   
+  async search(data){
+    
+    debug("search", data)
+    
+    const query = `SELECT "model"."id",
+                          "model"."name",
+                          "model"."tag",
+                          "category"."name"                  AS "category"
+                          from "model"
+                            LEFT JOIN "user" ON "model"."user_id" = "user"."id"
+                            LEFT JOIN "model_has_category" ON "model"."id" = "model_has_category"."model_id"
+                            LEFT JOIN "category" ON "model_has_category"."category_id" = "category"."id"
+                            WHERE "model"."name" ILIKE $1 || '%';`
+    
+    
+    const result = await pool.query(query, [data]);
+    
+    return result.rows;
+    
+    
+  }
+  
+  
   
   /**
    * @method getOne

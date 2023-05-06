@@ -33,9 +33,9 @@ export default function UserProductList ({rendered, userProducts, setSelectedId 
         <div className="userProducts__list">
           {userProducts.map((product) => (
             <UserProductListItem
-              key={product._id}
+              key={product.id}
               name={product.name}
-              id={product._id}
+              id={product.id}
               isLoading={isLoading}
               rendered={rendered}
               setSelectedId={setSelectedId}

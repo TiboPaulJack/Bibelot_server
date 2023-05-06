@@ -29,9 +29,9 @@ class LikesController extends coreController {
     /**
      * we send model_id from body and user_id from decoded token to dataMapper
      */
-    
+
     debug("req.params.id", req.params.id);
-    
+
     const response = await this.constructor.dataMapper.create({
       model_id: req.params.id,
       user_id: req.decodedId,

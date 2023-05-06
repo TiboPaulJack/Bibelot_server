@@ -8,12 +8,12 @@
     align-items: center;
     justify-content: space-evenly;
     position: fixed;
-    top: 10vh;
+    top: 10%;
     left: -100%;
     background-color: black;
     color: white;
     width: 100vw;
-    height: 90%;
+    height: calc(80% + 2px);
     transition: transform 1s ease;
     z-index: 2;
 

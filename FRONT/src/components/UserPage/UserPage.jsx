@@ -18,8 +18,10 @@ export default function UserPage() {
   const [userData, setUserData] = useState({});
   const [userProducts, setUserProducts] = useState([]);
   const [rendered, setRendered] = useState("UserProducts");
-  const [selectedId, setSelectedId] = useState(0)
+  const [selectedId, setSelectedId] = useState(0);
+  const [refresh, setRefresh] = useState(false);
   
+  console.log("refresh",refresh)
   
   useEffect(() => {
     fetch(baseHost + `/user/info`, {
@@ -29,6 +31,7 @@ export default function UserPage() {
       }
     }).then((res) => {
       if (res.status === 200) {
+        console.log('fetch user info')
         return res.json();
       } else if (res.status === 401 || res.status === 403 || res.status === 404) {
         logout()
@@ -38,11 +41,11 @@ export default function UserPage() {
       data.userProfil.picture = bufferToUrl(data.userProfil.picture.data)
       setUserData(data.userProfil);
       setUserProducts(data.allModel);
+      setRefresh(false)
     }).catch((error) => {
       console.error(error);
     });
-    console.log('FETCHED USER DATA')
-  }, []);
+  }, [setRefresh, refresh]);
   
   
   
@@ -53,7 +56,9 @@ export default function UserPage() {
   const handleRendered = (componentName) => {
     setRendered(componentName);
   }
-  //TODO: REFACTOR THIS COMPONENT TO USE THE CONTEXT API
+  
+  
+  
   return (
     <>
       <Header rendered={handleRendered} />
@@ -74,20 +79,30 @@ export default function UserPage() {
             &&
             <UserUpdate rendered={handleRendered}
                         userData={userData}
+                        setRefresh={setRefresh}
+                        refresh={refresh}
             />}
           {rendered === "ProductAdd"
             &&
-            <ProductAdd rendered={handleRendered} />}
+            <ProductAdd rendered={handleRendered}
+                        setRefresh={setRefresh}
+                        refresh={refresh}
+            />}
           {rendered === "ProductUpdate"
             &&
             <ProductUpdate rendered={handleRendered}
                            id={selectedId}
+                           setRefresh={setRefresh}
+                           refresh={refresh}
+                           
             />
           }
           {rendered === "ProductDelete"
             &&
             <ProductDelete  rendered={handleRendered}
                             id={selectedId}
+                            setRefresh={setRefresh}
+                            refresh={refresh}
             />}
           
         </div>
