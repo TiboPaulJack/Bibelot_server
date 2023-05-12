@@ -1,16 +1,17 @@
 import baseHost from "../../assets/baseHost.js";
-import { tokenCheck } from "../../utils/TokenCheck.js";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useParams } from "react-router-dom";
+import { UserContext } from "../../App.jsx";
 
 
 export default function CommentAdd({ freshComment }) {
   const [newComment, setNewComment] = useState({});
-
+  const { logged } = useContext(UserContext);
   const modelId = useParams().id;
 
   const addComment = () => {
-    console.log("modelid", modelId);
+    freshComment(newComment);
+    document.getElementById("inputComment").value = "";
     fetch(baseHost + "/comments", {
       method: "POST",
       headers: {
@@ -23,7 +24,6 @@ export default function CommentAdd({ freshComment }) {
       }),
     }).then((res) => {
       if (res.status === 201) {
-        freshComment(newComment);
         setNewComment({});
         return res.json();
       }
@@ -31,8 +31,12 @@ export default function CommentAdd({ freshComment }) {
   };
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setNewComment({ [name]: value, model_id: modelId });
+    if(logged){
+      const { name, value } = e.target;
+      setNewComment({ [name]: value, model_id: modelId });
+    }else{
+      e.target.value = "";
+    }
   };
 
   return (
@@ -42,10 +46,11 @@ export default function CommentAdd({ freshComment }) {
       </div>
       <div className="commentAdd__input">
         <input
+          id="inputComment"
           type="text"
           name="content"
           onChange={handleInputChange}
-          placeholder="Ajouter un commentaire"
+          placeholder={logged ?"Ajouter un commentaire" : "Connectez-vous pour ajouter un commentaire"}
         />
       </div>
       <div className="commentAdd__box-button">

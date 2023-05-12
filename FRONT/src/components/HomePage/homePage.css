@@ -1,16 +1,21 @@
 
-.homePage{
-
-    box-sizing: border-box;
-    margin: 0;
 
 
-    display: flex;
-    flex-direction: column;
+.homePage {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  margin: 0;
+  width: 100%;
+  height: 80%;
+  overflow: hidden;
+}
 
+@media (max-width: 750px) {
 
-    width: 100%;
-    height: 80%;
+  .homePage{
+    height: 100%;
+  }
 
 }
 

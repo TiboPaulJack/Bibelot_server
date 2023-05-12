@@ -31,7 +31,7 @@ class modelDatamapper extends CoreDataMapper {
                             LEFT JOIN "user" ON "model"."user_id" = "user"."id"
                             LEFT JOIN "model_has_category" ON "model"."id" = "model_has_category"."model_id"
                             LEFT JOIN "category" ON "model_has_category"."category_id" = "category"."id"
-                            WHERE "model"."name" ILIKE $1 || '%';`
+                            WHERE "model"."name" ILIKE $1 || '%';` // ILIKE = case insensitive
     
     
     const result = await pool.query(query, [data]);

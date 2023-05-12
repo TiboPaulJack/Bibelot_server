@@ -70,7 +70,15 @@ class UserDatamapper extends CoreDatamapper {
     const model = response.rows;
     return { user, model };
   }
-
+  async getInfo(id) {
+    
+    const query = `SELECT "pseudo", "id" FROM "user" WHERE id = $1`;
+    
+    const response = await pool.query(query, [id]);
+    
+    return response.rows[0];
+    
+  }
   /**
    * @method update
    * @description Update one user by id

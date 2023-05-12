@@ -10,7 +10,7 @@ const router = express.Router();
 
 
 
-router.get('/',
+router.get('/:id',
     handlerController(commentsController.getAll.bind(commentsController))
 );
 

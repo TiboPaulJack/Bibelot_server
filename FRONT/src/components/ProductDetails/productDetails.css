@@ -175,6 +175,9 @@
 
 
     /*-----------------BOTTOM-----------------*/
+
+
+
     .productDetails__bottom{
         display: flex;
         flex-direction: column;
@@ -189,6 +192,7 @@
         margin: auto auto 5vh;
 
     }
+
 
     .bottom__download{
 

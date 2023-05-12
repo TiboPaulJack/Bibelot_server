@@ -21,7 +21,6 @@ export default function UserPage() {
   const [selectedId, setSelectedId] = useState(0);
   const [refresh, setRefresh] = useState(false);
   
-  console.log("refresh",refresh)
   
   useEffect(() => {
     fetch(baseHost + `/user/info`, {
@@ -31,7 +30,6 @@ export default function UserPage() {
       }
     }).then((res) => {
       if (res.status === 200) {
-        console.log('fetch user info')
         return res.json();
       } else if (res.status === 401 || res.status === 403 || res.status === 404) {
         logout()
@@ -51,7 +49,6 @@ export default function UserPage() {
   
   const handleSelectedId = (id) => {
     setSelectedId(id);
-    console.log("selectedId",selectedId)
   }
   const handleRendered = (componentName) => {
     setRendered(componentName);

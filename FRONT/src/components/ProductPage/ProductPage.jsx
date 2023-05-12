@@ -10,6 +10,7 @@ import BaseHost from "../../assets/baseHost.js";
 export default function ProductPage() {
   
   const [categories, setCategories] = useState([]);
+  const [filter, setFilter] = useState("");
   
   
   useEffect(() => {
@@ -24,8 +25,10 @@ export default function ProductPage() {
       <>
         <Header />
           <div className="productPage">
-            <ProductFilter categories={categories} />
-            <ProductList />
+            <ProductFilter categories={categories}
+                           filter={setFilter}
+            />
+            <ProductList filter={filter} />
           </div>
       </>
 

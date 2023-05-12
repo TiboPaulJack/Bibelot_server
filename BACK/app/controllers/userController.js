@@ -1,6 +1,5 @@
 const coreController = require("./coreController");
 const userDatamapper = require("../datamappers/userDatamapper");
-const modelDatamapper = require("../datamappers/modelDatamapper");
 const add = require("../utils/newUser");
 const debug = require("debug")("3db: userController");
 const signin = require("../utils/signin");
@@ -51,9 +50,11 @@ class userController extends coreController {
     res.status(200).json(addedUser);
   }
   
-  checkOrRenewToken(req, res, next) {
+  async checkOrRenewToken(req, res, next) {
     if(req.decodedId){
-      res.status(200).json({message: "token ok"})
+      const id = req.decodedId
+      const user = await this.constructor.dataMapper.getInfo(id)
+      res.status(200).json({message: "token ok", user})
     }else{
       res.status(401).json({message: "token expired"})
     }
@@ -114,6 +115,14 @@ class userController extends coreController {
 
     if (response) {
       res.status(200).json(allUser);
+    }
+  }
+
+  async getInfo(req, res, next) {
+    const id = req.decodedId
+    const response = await this.constructor.dataMapper.getInfo(id);
+    if (response) {
+      res.status(200).json(response);
     }
   }
 

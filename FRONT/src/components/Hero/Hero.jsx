@@ -28,7 +28,6 @@ export default function Hero() {
         }
       })
   }
-  console.log(searchResults)
   
   
   return (

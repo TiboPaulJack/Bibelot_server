@@ -1,21 +1,18 @@
 import "./productCard.css";
 import "./productCardLoading.css";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Like from "../Like/Like.jsx";
 
 export default function ProductCard(props) {
   const navigate = useNavigate();
-  const {isLoading, setIsLoading} = props;
-  const [likesCount, setLikesCount] = useState(0);
-
+  
+  const {isLoading} = props;
+  const [likesCount, setLikesCount] = useState(props.like);
   const tags = props.tags;
   const id = props.id;
-
-  const setLikesCountFromChild = (count) => {
-    setLikesCount(count)
-  }
-
+  
+  
 
   const handleClick = () => {
     !isLoading &&
@@ -57,15 +54,18 @@ export default function ProductCard(props) {
           </div>
         </div>
         <div className="card__infos-right">
-          <Like likes={likesCount}
+          <Like
+                key={props.id}
+                likes={likesCount}
                 isLoading={isLoading}
                 id={props.id}
-                setLikesCount={setLikesCountFromChild}
+                liked={props.liked}
+                setLikesCount={setLikesCount}
           />
         </div>
       </div>
         <div className="card__tags">{ tags && tags.map( ( tag ) => (
-          <span className="tag-item">{ tag }</span>
+          <span className="tag-item" key={tag}>{ tag }</span>
         ) ) }
         </div>
 

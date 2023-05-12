@@ -29,12 +29,21 @@
 }
 .like__icon-svg{
     width: 18px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
     align-self: center;
+    background-image: url("../../assets/icons8-aimer.svg");
 }
 
 /*liked icon*/
-.isLiked{
-
+.liked{
+    width: 18px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    align-self: center;
+    background-image: url("../../assets/icons8-aime-rempli-20.svg");
 }
 
 

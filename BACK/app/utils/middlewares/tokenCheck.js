@@ -12,8 +12,7 @@ const jwt = require("jsonwebtoken");
 const tokenCheck = async (req, res, next) => {
   const authHeader = req.headers.authorization;
   
-  debug("REQ-BODY IN TOKEN-CHECK", req.body);
-
+  
   if (!authHeader) {
     const err = new tokenError("you need to be connected");
     return next(err);

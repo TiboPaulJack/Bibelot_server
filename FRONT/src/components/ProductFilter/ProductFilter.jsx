@@ -2,15 +2,24 @@ import './productFilter.css'
 
 
 
-export default function ProductFilter({ categories }) {
+export default function ProductFilter({ categories, filter }) {
+  
+  const handleFilter = (e) => {
+    if(e.target.value === "all") return filter("")
+    filter(e.target.value)
+    
+  }
 
   return (
     <div className="productFilter">
-      <select name="category" id="category">
+      <select name="category"
+              id="category"
+              onChange={ handleFilter }
+      >
         <option value="all">All</option>
         {
           categories.map((category) => (
-          <option key={ category.id } value={ category.id }>{ category.name }</option>
+          <option key={ category.id } value={ category.name }>{ category.name }</option>
           ))
         }
       </select>

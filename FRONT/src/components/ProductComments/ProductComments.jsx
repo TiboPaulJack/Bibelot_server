@@ -5,44 +5,38 @@ import baseHost from "../../assets/baseHost.js";
 import { useEffect, useState } from "react";
 
 
-export default function ProductComments() {
-  
- 
-  
-  const [comments, setComments] = useState( [] );
+export default function ProductComments({ id }) {
+  const [comments, setComments] = useState([]);
   
   const freshComment = (comment) => {
-    setComments([...comments, comment]);
-  }
-  
-  
-  useEffect(() => {
-    getComments()
-  }, [comments])
-  
-  const getComments = () => {
-    fetch(baseHost + "/comments", {
-      method: "GET",
-    }).then((res) => res.json())
-      .then((data) => setComments(data))
-  }
-  
-  
-  
-  return (
+    setComments([comment,...comments]);
+  };
 
+  useEffect(() => {
+    getComments();
+  }, [setComments]);
+
+  const getComments = () => {
+    fetch(baseHost + `/comments/${id}`, {
+      method: "GET",
+    })
+      .then((res) => res.json())
+      .then((data) => setComments(data));
+  };
+
+  return (
     <section className="productComments">
-      <CommentAdd />
+      <CommentAdd freshComment={freshComment}/>
       <div className="comment__list">
-        {comments.map(comment => {
-          return <Comment
-            key={comment.id}
-            comment={comment}
-            freshComment={freshComment}
-          />
-        })
-        }
+        {comments.map((comment, i) => {
+          return (
+            <Comment
+              key={i}
+              comment={comment}
+            />
+          );
+        })}
       </div>
     </section>
-  )
+  );
 }

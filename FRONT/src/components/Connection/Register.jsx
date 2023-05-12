@@ -1,8 +1,14 @@
 import baseHost from "../../assets/baseHost.js";
+import { createPortal } from "react-dom";
+import Modal from "../Modal/Modal.jsx";
+import { UserContext } from "../../App.jsx";
+import { useContext } from "react";
 
 export default function Register(props) {
 
     const { smallScreenRegister, setSmallScreenRegister } = props
+    const { showModal, setShowModal } = useContext(UserContext);
+    const { modalContent, setModalContent } = useContext(UserContext);
 
   const register = async (data) => {
 
@@ -22,6 +28,7 @@ export default function Register(props) {
 
     const form = e.target;
     const formData = new FormData(form);
+    const pseudo = formData.get("pseudo");
 
     const password = formData.get("password");
     const passwordConfirm = formData.get("passwordConfirm");
@@ -35,12 +42,22 @@ export default function Register(props) {
 
     // Send the data to the API
     register(formData).then((response) => {
-      console.log("response API :", response);
     });
+    
+    form.reset();
+    
+    setModalContent(`You have been registered successfully !
+ Welcome to the community ${pseudo}  !`);
+    setShowModal(true);
+    
   };
 
   return (
     <div className={smallScreenRegister ? "register visible" : "register"}>
+      {showModal && createPortal(
+        <Modal/>,
+        document.body
+      )}
       <div className="register__form">
         <form onSubmit={handleSubmit}>
           <div className="register__form__input">
@@ -85,6 +102,7 @@ export default function Register(props) {
           </div>
         </form>
       </div>
+      
     </div>
   );
 }

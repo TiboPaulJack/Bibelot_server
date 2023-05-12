@@ -14,17 +14,33 @@ export default function Sidebar() {
     setSideBar();
   }
 
+  const handleClickProfile = () => {
+    setSideBar();
+    navigate("/user");
+  }
+
+  const handleClickModels = () => {
+    setSideBar();
+    navigate("/models");
+  }
+
+  const handleClickLogout = () => {
+    setSideBar();
+    logout();
+    navigate("/");
+  }
+
   return (
     <div className={sideBarActive ? "sidebar active" : "sidebar"}>
 
       <ul className="sidebar__list">
-        <li className="sidebar__list-item" onClick={() => navigate("/user")}>
+        <li className="sidebar__list-item" onClick={handleClickProfile}>
           Profile
         </li>
-        <li className="sidebar__list-item" onClick={() => navigate("/models")}>
+        <li className="sidebar__list-item" onClick={handleClickModels}>
           Models
         </li>
-        <li className="sidebar__list-item" onClick={() => logout()}>
+        <li className="sidebar__list-item" onClick={handleClickLogout}>
           Logout
         </li>
         <li className="sidebar__list-item">Help</li>

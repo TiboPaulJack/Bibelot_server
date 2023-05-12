@@ -1,7 +1,5 @@
 const fs = require("fs");
 const NotFoundError = require("./errorControl/notFoundError");
-const badInputError = require("./errorControl/badInputError");
-const debug = require("debug")("3db: sendPictureToBuffer");
 
 const sendPicture = (path) => {
 	const filePath = path;
@@ -13,7 +11,6 @@ const sendPicture = (path) => {
 			}
 
 			const buffer = Buffer.from(data, "base64");
-			debug(buffer);
 
 			resolve(buffer);
 		});

@@ -46,7 +46,6 @@ const signin = async (req, res, next) => {
   }
   //stock user data in req.user
   req.user = user;
-  console.log(req.user);
 
   //if the password is correct we return the user and a cookie with token
   //token generation

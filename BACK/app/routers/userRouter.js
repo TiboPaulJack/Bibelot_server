@@ -88,6 +88,13 @@ router.get(
   userController.getOne.bind(userController)
 );
 
+router.get(
+  "/infoOnly",
+  tokenCheck,
+  userController.getOne.bind(userController)
+);
+
+
 /**
  * @description - route for get all users
  * @method - GET

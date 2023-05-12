@@ -10,7 +10,6 @@ export default function UserDeleteConfirm({ setDeleteConfirm }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     
-    console.log('userId', userId)
    
     fetch(baseHost + `/user/delete/${userId}`, {
       method: "DELETE",
@@ -20,7 +19,6 @@ export default function UserDeleteConfirm({ setDeleteConfirm }) {
       }).then((res) =>
       {
         if (res.status === 200) {
-          console.log(res.status, res.message)
           localStorage.removeItem("token")
           window.location = "/"
         }

@@ -19,7 +19,7 @@ export default function UserUpdate({ rendered, userData, setRefresh, refresh }) 
   const UpdateUser = (formData) => {
     
     if (Object.entries(formData).length === 0) {
-      return  console.log("no change");
+      return
     }
     
     const form = new FormData();
@@ -35,7 +35,6 @@ export default function UserUpdate({ rendered, userData, setRefresh, refresh }) 
       },
     }).then((res) => {
       setRefresh(true)
-      console.log("refresh", refresh)
       if (res.status === 401 ) {
         logout()
       }

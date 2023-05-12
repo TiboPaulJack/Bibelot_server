@@ -12,7 +12,7 @@ class commentsDatamapper extends coreDatamapper {
     super();
   }
   
-  async getAll() {
+  async getAll(id) {
     
     const query = `
         SELECT
@@ -20,9 +20,10 @@ class commentsDatamapper extends coreDatamapper {
           "user".pseudo
         FROM "comment"
         LEFT JOIN "user" ON "user".id = "comment".user_id
+        WHERE "comment".model_id = $1
         GROUP BY "comment".id, "user".pseudo`
     
-    const response = await pool.query(query);
+    const response = await pool.query(query, [id]);
     
     if(response.rowCount === 0) {
       return new notFoundError("no comment found");

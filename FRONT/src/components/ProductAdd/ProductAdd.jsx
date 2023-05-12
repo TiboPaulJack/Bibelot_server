@@ -2,13 +2,15 @@ import './productAdd.css'
 import BaseHost from "../../assets/baseHost.js";
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../App.jsx";
+import { createPortal } from "react-dom";
+import Modal from "../Modal/Modal.jsx";
 
 
 export default function ProductAdd (props)  {
   
   const [tags, setTags] = useState([]);
   const [categories, setCategories] = useState([]);
-  const { logout } = useContext(UserContext);
+  const { logout, setModalContent, setShowModal, showModal } = useContext(UserContext);
   const { setRefresh } = props;
   const { rendered } = props;
   
@@ -45,20 +47,26 @@ export default function ProductAdd (props)  {
     formData.delete("tag");
     const formattedTags = `{${tags.join(',')}}`;
     formData.append("tag", formattedTags);
-    console.log(formData.get("tag"))
+    if(tags.length === 0){
+      setModalContent("Please add at least one tag");
+      setShowModal(true);
+    }else{
     AddProduct(formData);
+    }
   }
   
   const handleTags = (e) => {
     const tagInput = document.getElementById("tag");
     setTags([...tags, tagInput.value]);
-    console.log(tags)
     tagInput.value = "";
-    
   }
   
     return (
       <div className="productAdd">
+        {showModal && createPortal(
+          <Modal/>,
+          document.body
+        )}
         <button className="productAdd__close"
                 onClick={() => rendered("UserProducts")}>
           X
@@ -88,13 +96,14 @@ export default function ProductAdd (props)  {
             <option value="true">Yes</option>
             <option value="false">No</option>
           </select>
-          <label>Product Image</label>
+          <label>Preview Image</label>
           <input type="file"
                  name="picture"
                  required
           />
-          <label>Product 3d File</label>
+          <label>Glb File</label>
           <input type="file"
+                 accept={".glb"}
                  name="data"
                  required
           />

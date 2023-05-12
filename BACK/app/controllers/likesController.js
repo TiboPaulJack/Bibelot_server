@@ -17,6 +17,21 @@ class LikesController extends coreController {
     super();
   }
 
+  async check (req, res, next) {
+    
+    const response = await this.constructor.dataMapper.checkIsLiked({
+      model_id: req.params.id,
+      user_id: req.decodedId,
+    });
+
+    if (response instanceof Error) {
+      return next(response);
+    }
+
+    if (response) {
+      res.status(200).json(response);
+    }
+  }
   /**
    * @description - method for create or removed a like
    * @method - create

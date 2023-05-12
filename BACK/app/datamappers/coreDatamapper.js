@@ -88,7 +88,7 @@ class CoreDatamapper {
             VALUES (${params.join(", ")})
             RETURNING *;`;
 
-    const response = await pool.query(query, Object.values(data));
+    const response = await pool.query(query, [...Object.values(data)]);
 
     return response.rows[0];
   }

@@ -11,17 +11,20 @@ class commentsController extends coreController {
   }
 
   async getAll(req, res, next) {
-    const response = await this.constructor.dataMapper.getAll();
+    
+    const id = req.params.id;
+    
+    const response = await this.constructor.dataMapper.getAll(id);
 
     if (response instanceof Error) {
       return next(response);
     }
-
+  
     res.status(200).json(response);
   }
 
   async create(req, res, next) {
-    console.log("req.body", req.body);
+    
 
     if (!req.body.content) {
       return next(new Error("No content provided"));

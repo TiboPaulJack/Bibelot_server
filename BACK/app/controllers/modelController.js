@@ -4,6 +4,7 @@ const debug = require("debug")("3db: modelController");
 const fs = require("fs");
 const sendPictureToBuffer = require("../utils/sendPictureToBufferMODEL");
 const deleteFile = require("../utils/deleteModel");
+const likesDatamapper = require("../datamappers/likesDatamapper");
 
 /**
  * @class modelController
@@ -37,18 +38,27 @@ class modelController extends coreController {
       );
       // If not, get all models
     } else {
-      debug("no query");
       response = await this.dataMapper.getAllModels();
     }
 
     if (response instanceof Error) {
       throw response;
     }
-
+    
+    let likedModels = [];
     const allModels = [];
+    
+    // check if the user has liked models
+    if(req.decodedId){
+      const id = req.decodedId;
+      const idliked = await likesDatamapper.checkIsLiked(id);
+      likedModels = idliked.likedmodels;
+    }
+    
     // Send all models to buffer
     for (const element of response) {
       const picture = await sendPictureToBuffer(element.picture);
+      
 
       const model = {
         id: element.id,
@@ -56,9 +66,19 @@ class modelController extends coreController {
         category: element.category,
         pseudo: element.pseudo,
         like: element.likes,
+        liked : false,
         tags: element.tag,
         picture,
       };
+      
+      if(likedModels) {
+        likedModels.forEach( ( id ) => {
+          if (id === element.id) {
+           model.liked = true;
+          }
+        } );
+      }
+      
       allModels.push(model);
     }
 
@@ -113,7 +133,6 @@ class modelController extends coreController {
   }
   
   async search(req, res, next) {
-    debug("searchcontroller")
     
     
     const data = Object.values(req.query).toString();
@@ -150,6 +169,8 @@ class modelController extends coreController {
     req.body.picture = pathPicture;
 
     req.body = { ...req.body, user_id: req.decodedId };
+    
+    debug()
 
     const response = await this.dataMapper.create(req.body);
 

@@ -9,6 +9,9 @@ import Auth from "./components/Connection/Auth.jsx";
 import UserPage from "./components/UserPage/UserPage.jsx";
 import { tokenCheck } from "./utils/TokenCheck.js";
 import Sidebar from "./components/Sidebar/Sidebar.jsx";
+const root = document.getElementById('root');
+
+
 
 
 export const UserContext = createContext({
@@ -20,24 +23,49 @@ export const UserContext = createContext({
   setLogged: () => {},
   setPseudo: () => {},
   setUserId: () => {},
-  logout: () => {}
+  logout: () => {},
+  userCheck: () => {},
+  showModal: false,
+  setShowModal: () => {},
+  modalContent: '',
+  setModalContent: () => {}
+  
   
 });
 
 function App() {
   
+  
+  
+  root.style.overflow = 'hidden';
   const [user, setUser] = useState('');
   const [userId, setUserId] = useState(0);
   const [logged, setLogged] = useState(false);
   const [sideBarActive, setSideBarActive] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [modalContent, setModalContent] = useState('');
+  
+  if(showModal){
+    document.body.style.overflow = "hidden";
+    root.style.filter = "blur(2px)";
+    root.style.opacity = "0.7";
+    root.style.pointerEvents = "none";
+  }
+  
+  const userCheck = () => {
+    tokenCheck().then(res => {
+      setUserId(res.user.id)
+      setUser(res.user.pseudo)
+    });
+  }
   
   const setSideBar = () => {
     setSideBarActive(!sideBarActive);
   }
   
   useEffect(() => {
-    tokenCheck();
-  }, [user, logged, userId]);
+    userCheck()
+  }, [logged]);
   
   
   useEffect(() => {
@@ -55,7 +83,7 @@ function App() {
     setLogged(false);
     setUser('');
     setUserId(null);
-    localStorage.clear();
+    localStorage.removeItem('token');
     window.location = "/";
   }
   
@@ -70,9 +98,14 @@ function App() {
         setUserId: setUserId,
         logout: logout,
         setSideBar: setSideBar,
-        sideBarActive: sideBarActive
+        sideBarActive: sideBarActive,
+        showModal: showModal,
+        setShowModal: setShowModal,
+        userCheck: userCheck,
+        modalContent: modalContent,
+        setModalContent: setModalContent
       }}>
-        {<Sidebar />}
+        <Sidebar />
         <Routes>
           <Route path="/model/:id" element={<ProductDetails />} />
           <Route path="/models" element={<ProductPage />} />

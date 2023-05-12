@@ -13,6 +13,7 @@ const debug = require("debug")("3db: routers");
 const path = require("path");
 const multer = require("multer");
 const tokenCheck = require("../utils/middlewares/tokenCheck");
+const isUserConnected = require("../utils/middlewares/isUserConnected");
 
 const router = express.Router();
 
@@ -66,6 +67,7 @@ router.get('/search', handlerController(modelController.search.bind(modelControl
  */
 router.get(
 	"/",
+	isUserConnected,
 	handlerController(modelController.getAll.bind(modelController))
 );
 

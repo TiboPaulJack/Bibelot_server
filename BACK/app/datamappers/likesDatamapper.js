@@ -17,6 +17,12 @@ class likesDatamapper extends coreDatamapper {
     super();
   }
 
+  async checkIsLiked(id) {
+    const checkLike = `SELECT array_agg(model_id) AS likedModels FROM  ${this.constructor.tableName} WHERE user_id = $1`;
+    const responseCheckLike = await pool.query(checkLike, [id]);
+    
+   return responseCheckLike.rows[0];
+  }
   /**
    * @method create
    * @description Create or removed a like, check if the user has already liked the model, if he has already liked the model we remove the like, if he has not liked the model we create the like
@@ -35,6 +41,7 @@ class likesDatamapper extends coreDatamapper {
       Object.values(id)[0],
     ]);
 
+    //retourne tous les models que l'user a deja liké
     if (modelIdCheckResponse.rowCount === 0) {
       return new notFoundError("model not found");
     }

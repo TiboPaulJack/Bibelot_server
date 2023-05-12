@@ -41,7 +41,7 @@ export default function ProductDelete(props) {
         X
       </button>
       <h6 className="productDeleteConfirm__title">
-        This action is irreversible, by clicking on confirm, this model will by
+        This action is irreversible, by clicking on confirm, this model will be
         deleted
       </h6>
       <button className="productDeleteConfirm__close" onClick={() => productDelete(id)}>

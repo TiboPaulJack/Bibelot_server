@@ -1,11 +1,13 @@
 const express = require('express');
 const handlerController = require('../controllers/handlerController');
 const likesController = require('../controllers/likesController');
-const tockenCheck = require('../utils/middlewares/tokenCheck');
+const tokenCheck = require('../utils/middlewares/tokenCheck');
 const errorHandler = require('../utils/errorControl/errorHandler');
 
 const router = express.Router();
 
+
+router.get('/check', handlerController(likesController.check.bind(likesController)) )
 
 /**
  * @description - route for add or remove a like for a model
@@ -16,7 +18,7 @@ const router = express.Router();
  * @param {function} likesController.create - controller for add or remove a like for a model
  * @returns {object} - return an object with the like created or removed, return new like count
  */
-router.post('/:id', tockenCheck, handlerController(likesController.create.bind(likesController)));
+router.post('/:id', tokenCheck, handlerController(likesController.create.bind(likesController)));
 
 /**
  * @description - route for get the like count for a model
