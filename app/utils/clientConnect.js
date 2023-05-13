@@ -1,7 +1,5 @@
-require("dotenv").config();
-const debug = require("debug")("3db: clientConnect");
-
 const { Client } = require('pg');
+require("dotenv").config();
 
 const client = new Client({
   connectionString: process.env.DATABASE_URL,
@@ -12,10 +10,10 @@ const client = new Client({
 
 client.connect()
   .then(() => {
-    debug("Connected to database");
+    console.log("Connected to database");
   })
   .catch((error) => {
-    debug("Error connecting to database:", error);
+    console.log("Error connecting to database:", error);
   });
 
 module.exports = client;
