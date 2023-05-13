@@ -10,13 +10,10 @@ const debug = require("debug")("3db: clientConnect");
 const { Pool } = require("pg");
 const pool = new Pool({
   
-  user: process.env.PGUSER,
-  password: process.env.PGPASSWORD,
-  host: process.env.PGHOST,
-  database: process.env.PG_DATABASE,
-  port: process.env.PGPORT,
-  url: process.env.DATABASE_URL,
-  
+  connectionString: process.env.DATABASE_URL,
+  ssl: {
+    rejectUnauthorized: false
+  }
   
 });
 pool.connect;
