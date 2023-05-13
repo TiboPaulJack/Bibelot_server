@@ -1,7 +1,3 @@
-
-
-
-
 const express = require("express");
 
 const modelController = require("../controllers/modelController");
@@ -19,14 +15,13 @@ const router = express.Router();
 
 // ************************ */
 
-
 const uploadPath = path.join("uploads");
 
 const storage = multer.diskStorage({
-	destination: (req, file, cb) => {
-		debug(req.body, "req.body FIRST MULTER");
-		cb(null, uploadPath);
-	},
+  destination: (req, file, cb) => {
+    debug(req.body, "req.body FIRST MULTER");
+    cb(null, uploadPath);
+  },
 });
 
 const upload = multer({ storage: storage });
@@ -39,23 +34,26 @@ const upload = multer({ storage: storage });
  * @param {string} "/add" - path for add a model
  * @param {function} upload.fields - multer config for upload files
  * @param {function} validator - middleware for validate the body
- * @param {function} handlerController - middleware for handle the controller
+ * @param {function} handlerController - middleware for handle the controllerp
  * @param {function} modelController.create - controller for create a model
  * @param {function} tokenCheck - middleware for check the token
  * @returns {object} - return an object with the model created
  */
 router.post(
-	"/add",
-	tokenCheck,
-	validator(schema.model_create),
-	upload.fields([
-		{ name: "data", maxCount: 1 },
-		{ name: "picture", maxCount: 1 }]),
-	handlerController(modelController.create.bind(modelController))
+  "/add",
+  tokenCheck,
+  upload.fields([
+    { name: "data", maxCount: 1 },
+    { name: "picture", maxCount: 1 },
+  ]),
+  validator(schema.model_create),
+  handlerController(modelController.create.bind(modelController))
 );
 
-router.get('/search', handlerController(modelController.search.bind(modelController)))
-
+router.get(
+  "/search",
+  handlerController(modelController.search.bind(modelController))
+);
 
 /**
  * @description - route for get all models
@@ -66,9 +64,9 @@ router.get('/search', handlerController(modelController.search.bind(modelControl
  * @returns {object} - return an object with all models
  */
 router.get(
-	"/",
-	isUserConnected,
-	handlerController(modelController.getAll.bind(modelController))
+  "/",
+  isUserConnected,
+  handlerController(modelController.getAll.bind(modelController))
 );
 
 /**
@@ -80,8 +78,8 @@ router.get(
  * @returns {object} - return an object with the model glb data
  */
 router.get(
-	"/glb/:id",
-	handlerController(modelController.getGlb.bind(modelController))
+  "/glb/:id",
+  handlerController(modelController.getGlb.bind(modelController))
 );
 
 /**
@@ -93,8 +91,8 @@ router.get(
  * @returns {object} - return an object with the model data
  */
 router.get(
-	"/data/:id",
-	handlerController(modelController.getData.bind(modelController))
+  "/data/:id",
+  handlerController(modelController.getData.bind(modelController))
 );
 
 /**
@@ -107,10 +105,10 @@ router.get(
  * @returns {object} - return an object with the model updated
  */
 router.patch(
-	"/:id",
-	tokenCheck,
-	validator(schema.model_update),
-	handlerController(modelController.update.bind(modelController))
+  "/:id",
+  tokenCheck,
+  validator(schema.model_update),
+  handlerController(modelController.update.bind(modelController))
 );
 
 /**
@@ -123,9 +121,9 @@ router.patch(
  * @returns {object} - return an object with the model deleted
  */
 router.delete(
-	"/:id",
-	tokenCheck,
-	handlerController(modelController.delete.bind(modelController))
+  "/:id",
+  tokenCheck,
+  handlerController(modelController.delete.bind(modelController))
 );
 
 /**
