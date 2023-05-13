@@ -14,6 +14,10 @@ const pool = new Pool({
   password: process.env.PGPASSWORD,
   host: process.env.PGHOST,
   database: process.env.PG_DATABASE,
+  port: process.env.PGPORT,
+  url: process.env.DATABASE_URL,
+  
+  
 });
 pool.connect;
 
