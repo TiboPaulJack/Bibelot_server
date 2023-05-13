@@ -2,21 +2,16 @@
 /*require("dotenv").config();*/
 const debug = require("debug")("3db: clientConnect");
 
+const { Client } = require('pg');
 
-/**
- * @description - connect to database
- * @returns {object} - database connection
- */
-const { Client } = require("pg");
-const client = new Client({
-  user: process.env.PGUSER,
-  password: process.env.PGPASSWORD,
-  host: process.env.PGHOST,
-  database: process.env.PG_DATABASE,
-  port: process.env.PGPORT
+const pool = new Client({
+  connectionString: process.env.DATABASE_URL,
+  ssl: {
+    rejectUnauthorized: false
+  }
 });
+
 client.connect();
 
+module.exports = pool;
 
-
-module.exports = client;
