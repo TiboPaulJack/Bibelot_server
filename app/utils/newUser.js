@@ -64,11 +64,11 @@ const add = async (req, res, next, body) => {
   };
 
   debug(email);
-  sendMail(
+  /*sendMail(
     `${email}`,
     "nouvelle notification",
     "FELICITATION !! Vous êtes inscrit !"
-  );
+  );*/
   return newUser;
 };
 
