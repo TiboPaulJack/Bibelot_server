@@ -1,5 +1,5 @@
 %syntax-version=1.0.0
-%project=3db
+%project=d6aqvjpsarn4tc
 
-initTable 2023-03-30T12:58:34Z bastien leday <bastien.leday@gmail.com> # initialisationTables
+initTable 2023-03-30T12:58:34Z thibault <thibault@gmail.com># initialisationTables
 SeedingCategories 2023-04-30T11:05:26Z thibault <thibault@gmail.com> # categories seeding
