@@ -1,5 +1,5 @@
 const CoreDataMapper = require("./coreDatamapper");
-const client = require("../utils/clientConnect");
+const pool = require("../utils/clientConnect");
 const debug = require("debug")("3db: modelDatamapper");
 const NotFoundError = require("../utils/errorControl/notFoundError");
 const NoContentError = require("../utils/errorControl/noContentError");
@@ -34,7 +34,7 @@ class modelDatamapper extends CoreDataMapper {
                             WHERE "model"."name" ILIKE $1 || '%';` // ILIKE = case insensitive
     
     
-    const result = await client.query(query, [data]);
+    const result = await pool.query(query, [data]);
     
     return result.rows;
     
@@ -68,7 +68,7 @@ class modelDatamapper extends CoreDataMapper {
                    WHERE "model"."id" = $1
                    GROUP BY "model"."id", "user"."pseudo", "category"`;
     
-    const response = await client.query( query, [id] );
+    const response = await pool.query( query, [id] );
     
     if (response.rowCount === 0) {
       return new NoContentError( "no model found" );
@@ -97,7 +97,7 @@ class modelDatamapper extends CoreDataMapper {
                             LEFT JOIN "category" ON "model_has_category"."category_id" = "category"."id"
                    GROUP BY "model"."id", "user"."pseudo", "category"`;
     
-    const response = await client.query( query );
+    const response = await pool.query( query );
     
     if (response.rowCount === 0) {
       return new NoContentError();
@@ -132,7 +132,7 @@ class modelDatamapper extends CoreDataMapper {
     
     query += ` GROUP BY "model"."id", "user"."pseudo", "category"`;
     
-    const response = await client.query( query, Object.values( para ) );
+    const response = await pool.query( query, Object.values( para ) );
     
     if (response.rowCount === 0) {
       return new NoContentError();
@@ -165,7 +165,7 @@ class modelDatamapper extends CoreDataMapper {
         VALUES (${ params.join( ", " ) })
         RETURNING *;`;
     
-    const response = await client.query( query, Object.values( data ) );
+    const response = await pool.query( query, Object.values( data ) );
     const insertModelId = response.rows[0].id;
     
     //we need  query for join model to category in model_has_category table in bdd
@@ -174,7 +174,7 @@ class modelDatamapper extends CoreDataMapper {
     if (category_id) {
       const modelHasCategory = `INSERT INTO "model_has_category" (model_id, category_id)
                                 VALUES ($1, $2)`;
-      await client.query( modelHasCategory, values );
+      await pool.query( modelHasCategory, values );
     }
     
     return response.rows[0];
@@ -192,13 +192,13 @@ class modelDatamapper extends CoreDataMapper {
     const categoryModel = `DELETE
                            FROM "model_has_category"
                            WHERE "model_id" = $1`;
-    await client.query( categoryModel, [id] );
+    await pool.query( categoryModel, [id] );
     
     const query = `DELETE
                    FROM "${ this.constructor.tableName }"
                    WHERE "id" = $1
                    RETURNING * `;
-    const response = await client.query( query, [id] );
+    const response = await pool.query( query, [id] );
     
     return response.rows[0];
   }

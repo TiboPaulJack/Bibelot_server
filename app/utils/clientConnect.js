@@ -1,14 +1,13 @@
-const { Client } = require('pg');
-require("dotenv").config();
+const { Pool } = require('pg');
 
-const client = new Client({
+const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: {
     rejectUnauthorized: false
   }
 });
 
-client.connect()
+pool.connect()
   .then(() => {
     console.log("Connected to database");
   })
@@ -16,4 +15,4 @@ client.connect()
     console.log("Error connecting to database:", error);
   });
 
-module.exports = client;
+module.exports = pool;

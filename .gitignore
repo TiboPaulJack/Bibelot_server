@@ -7,9 +7,9 @@
 out
 gen
 
-BACK/node_modules
+node_modules
 .env
 test.glb
 
-FRONT/node_modules
+
 

@@ -1,4 +1,4 @@
-const client = require("../utils/clientConnect");
+const pool = require("../utils/clientConnect");
 const notFoundError = require("../utils/errorControl/notFoundError");
 const debug = require("debug")("3db: datamapper");
 
@@ -22,7 +22,7 @@ class CoreDatamapper {
     
     if (data === undefined || Object.keys(data).length === 0) {
       const firstQuery = `SELECT * FROM "${this.constructor.tableName}"`;
-      const response = await client.query(firstQuery);
+      const response = await pool.query(firstQuery);
       
       return response.rows;
     } else {
@@ -40,7 +40,7 @@ class CoreDatamapper {
       debug("data", data);
       debug("typeofobjectvaluesdata", typeof Object.values(data));
       debug('objectvaluesdata', Object.values(data))
-      const response = await client.query(query, [...Object.values(data)]);
+      const response = await pool.query(query, [...Object.values(data)]);
 
       return response.rows;
     }
@@ -55,7 +55,7 @@ class CoreDatamapper {
   async getOne(id) {
     debug("id", id);
     const query = `SELECT * FROM "${this.constructor.tableName}" WHERE "id" = $1`;
-    const response = await client.query(query, [id]);
+    const response = await pool.query(query, [id]);
 
     if (response.rowCount === 0) {
       return new notFoundError("not found");
@@ -88,7 +88,7 @@ class CoreDatamapper {
             VALUES (${params.join(", ")})
             RETURNING *;`;
 
-    const response = await client.query(query, [...Object.values(data)]);
+    const response = await pool.query(query, [...Object.values(data)]);
 
     return response.rows[0];
   }
@@ -113,7 +113,7 @@ class CoreDatamapper {
     const query = `UPDATE "${this.constructor.tableName}" SET ${newValues.join(
       ", "
     )} WHERE id = $${newValues.length + 1} RETURNING *`;
-    const response = await client.query(query, [...Object.values(data), id]);
+    const response = await pool.query(query, [...Object.values(data), id]);
     debug("response update", response.rows);
     
 
@@ -129,7 +129,7 @@ class CoreDatamapper {
   async delete(id) {
 
     const query = `DELETE FROM "${this.constructor.tableName}" WHERE "id" = $1 RETURNING * `;
-    const response = await client.query(query, [id]);
+    const response = await pool.query(query, [id]);
 
     debug("response delete", response.rows)
     debug("response delete", response.rows[0])
