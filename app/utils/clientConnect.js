@@ -16,7 +16,7 @@ const pool = new Pool({
   }
   
 });
-pool.connect;
+pool.connect();
 
 /**
  * @description - export pool
