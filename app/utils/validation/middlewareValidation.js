@@ -1,4 +1,5 @@
 const badInputError = require("../errorControl/badInputError");
+const debug = require("debug")("app:validation");
 
 /**
  * @description - validation middleware
