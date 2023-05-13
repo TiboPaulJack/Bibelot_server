@@ -1,5 +1,5 @@
 // require dotenv
-require("dotenv").config();
+/*require("dotenv").config();*/
 const debug = require("debug")("3db: clientConnect");
 
 
