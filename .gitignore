@@ -8,9 +8,9 @@ out
 gen
 
 BACK/node_modules
-BACK/.env
-BACK/test.glb
+.env
+test.glb
 
-BACK/uploads
+uploads
 FRONT/node_modules
 
