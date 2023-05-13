@@ -1,7 +1,7 @@
 import "./like.css";
-import baseHost from "../../assets/baseHost.js";
 import { useContext, useState } from "react";
 import { UserContext } from "../../App.jsx";
+import baseHost from "../../assets/baseHost.js";
 
 export default function Like({liked, likes, isLoading, id, setLikesCount }) {
   

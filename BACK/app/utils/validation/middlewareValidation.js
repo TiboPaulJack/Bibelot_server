@@ -1,5 +1,4 @@
 const badInputError = require("../errorControl/badInputError");
-const debug = require("debug")("3db: validation");
 
 /**
  * @description - validation middleware
@@ -46,7 +45,6 @@ function validation(schema) {
 	};
 
 }
-
 /**
  * @description - export validation
  */

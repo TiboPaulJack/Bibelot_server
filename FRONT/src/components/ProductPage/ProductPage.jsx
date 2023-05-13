@@ -3,7 +3,7 @@ import './productPage.css'
 import ProductFilter from "../ProductFilter/ProductFilter.jsx";
 import ProductList from "../ProductList/ProductList.jsx";
 import { useEffect, useState } from "react";
-import BaseHost from "../../assets/baseHost.js";
+const BaseHost = process.env.baseApi;
 
 
 

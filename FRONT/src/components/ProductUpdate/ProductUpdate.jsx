@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import { UserContext } from "../../App.jsx";
-import baseHost from "../../assets/baseHost.js";
 import "./productUpdate.css";
+import baseHost from "../../assets/baseHost.js";
 
 export default function ProductUpdate({ rendered, id, setRefresh }) {
   

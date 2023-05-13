@@ -1,7 +1,8 @@
-import baseHost from "../../assets/baseHost.js";
 import {useContext, useState} from "react";
 import { UserContext } from "../../App.jsx";
 import { useNavigate } from "react-router-dom";
+import baseHost from "../../assets/baseHost.js";
+
 
 export default function Login(props) {
   const { logged, setLogged } = useContext(UserContext);
@@ -11,8 +12,8 @@ export default function Login(props) {
 
   const navigate = useNavigate();
   const { smallScreenRegister, setSmallScreenRegister } = props
-
-
+  
+  
 
   const login = async (formData) => {
     // Convert the formData to a URLSearchParams object

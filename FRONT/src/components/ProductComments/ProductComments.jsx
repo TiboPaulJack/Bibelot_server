@@ -1,8 +1,8 @@
 import Comment from "./Comment.jsx";
 import './productComments.css'
 import CommentAdd from "./CommentAdd.jsx";
-import baseHost from "../../assets/baseHost.js";
 import { useEffect, useState } from "react";
+import baseHost from "../../assets/baseHost.js";
 
 
 export default function ProductComments({ id }) {

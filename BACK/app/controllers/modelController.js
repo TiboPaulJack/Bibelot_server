@@ -173,6 +173,12 @@ class modelController extends coreController {
     debug()
 
     const response = await this.dataMapper.create(req.body);
+    
+    if (response instanceof Error) {
+      deleteFile(pathModel);
+      deleteFile(pathPicture);
+      return next(response);
+    }
 
     res.status(201).json(response);
   }

@@ -2,8 +2,8 @@ import "./userUpdate.css"
 import { useContext, useState } from "react";
 import UserUpdateForm from "./UserUpdateForm.jsx";
 import UserDeleteConfirm from "../UserDelete/UserDeleteConfirm.jsx";
-import baseHost from "../../assets/baseHost.js";
 import { UserContext } from "../../App.jsx";
+import baseHost from "../../assets/baseHost.js";
 
 
 export default function UserUpdate({ rendered, userData, setRefresh, refresh }) {

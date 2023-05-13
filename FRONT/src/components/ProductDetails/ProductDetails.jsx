@@ -4,7 +4,6 @@ import ViewerGlb from "../Viewer/ViewerGlb.jsx";
 import "./productDetails.css";
 import ProductComments from "../ProductComments/ProductComments.jsx";
 import { useEffect, useState } from "react";
-import BaseHost from "../../assets/baseHost.js";
 import { useParams } from "react-router-dom";
 import Loader from "../Loader/Loader.jsx";
 import baseHost from "../../assets/baseHost.js";

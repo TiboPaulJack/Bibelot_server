@@ -1,8 +1,8 @@
-import baseHost from "../../assets/baseHost.js";
 import { createPortal } from "react-dom";
 import Modal from "../Modal/Modal.jsx";
 import { UserContext } from "../../App.jsx";
 import { useContext } from "react";
+import baseHost from "../../assets/baseHost.js";
 
 export default function Register(props) {
 

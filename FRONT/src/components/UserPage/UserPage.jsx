@@ -7,9 +7,9 @@ import UserUpdate from "../UserUpdate/UserUptate.jsx";
 import ProductAdd from "../ProductAdd/ProductAdd.jsx";
 import ProductUpdate from "../ProductUpdate/ProductUpdate.jsx";
 import { UserContext } from "../../App.jsx";
-import baseHost from "../../assets/baseHost.js";
 import bufferToUrl from "../../utils/BufferToUrl.js";
 import ProductDelete from "../ProductDelete/ProductDelete.jsx";
+import baseHost from "../../assets/baseHost.js";
 
 export default function UserPage() {
   
