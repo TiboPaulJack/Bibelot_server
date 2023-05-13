@@ -1,7 +1,7 @@
 
 const coreDatamapper = require("./coreDatamapper");
 const notFoundError = require("../utils/errorControl/notFoundError");
-const pool = require("../utils/clientConnect");
+const client = require("../utils/clientConnect");
 
 
 
@@ -23,7 +23,7 @@ class commentsDatamapper extends coreDatamapper {
         WHERE "comment".model_id = $1
         GROUP BY "comment".id, "user".pseudo`
     
-    const response = await pool.query(query, [id]);
+    const response = await client.query(query, [id]);
     
     if(response.rowCount === 0) {
       return new notFoundError("no comment found");

@@ -1,6 +1,6 @@
 const coreDatamapper = require("./coreDatamapper");
 const debug = require("debug")("3db: datamapper");
-const pool = require("../utils/clientConnect");
+const client = require("../utils/clientConnect");
 const notFoundError = require("../utils/errorControl/notFoundError");
 
 /**
@@ -19,7 +19,7 @@ class likesDatamapper extends coreDatamapper {
 
   async checkIsLiked(id) {
     const checkLike = `SELECT array_agg(model_id) AS likedModels FROM  ${this.constructor.tableName} WHERE user_id = $1`;
-    const responseCheckLike = await pool.query(checkLike, [id]);
+    const responseCheckLike = await client.query(checkLike, [id]);
     
    return responseCheckLike.rows[0];
   }
@@ -37,7 +37,7 @@ class likesDatamapper extends coreDatamapper {
      * if the model exist we need to continue
      */
     const modelIdCheck = `SELECT * FROM model WHERE id = $1`;
-    const modelIdCheckResponse = await pool.query(modelIdCheck, [
+    const modelIdCheckResponse = await client.query(modelIdCheck, [
       Object.values(id)[0],
     ]);
 
@@ -50,7 +50,7 @@ class likesDatamapper extends coreDatamapper {
      * we check if the user has already liked the post
      */
     const checkLike = `SELECT * FROM ${this.constructor.tableName} WHERE model_id = $1 AND user_id = $2`;
-    const responseCheckLike = await pool.query(checkLike, Object.values(id));
+    const responseCheckLike = await client.query(checkLike, Object.values(id));
     debug(responseCheckLike.rows);
 
     /**
@@ -60,10 +60,10 @@ class likesDatamapper extends coreDatamapper {
       //he has already liked the post
       //we need to delete the like
       const deleteLikeQuery = `DELETE FROM ${this.constructor.tableName} WHERE model_id = $1 AND user_id = $2`;
-      const deleteLike = await pool.query(deleteLikeQuery, Object.values(id));
+      const deleteLike = await client.query(deleteLikeQuery, Object.values(id));
 
       const newLikeCountAfterDelete = `SELECT COUNT(*) FROM ${this.constructor.tableName} WHERE model_id = $1`;
-      const deleteNewLikeCount = await pool.query(newLikeCountAfterDelete, [
+      const deleteNewLikeCount = await client.query(newLikeCountAfterDelete, [
         Object.values(id)[0],
       ]);
 
@@ -75,10 +75,10 @@ class likesDatamapper extends coreDatamapper {
      */
 
     const newLikeQuery = ` INSERT INTO ${this.constructor.tableName} (model_id, user_id) VALUES ($1, $2)`;
-    const response = await pool.query(newLikeQuery, Object.values(id));
+    const response = await client.query(newLikeQuery, Object.values(id));
 
     const newLikeCountQuery = `SELECT COUNT(*) FROM ${this.constructor.tableName} WHERE model_id = $1 `;
-    const newLikeCount = await pool.query(newLikeCountQuery, [
+    const newLikeCount = await client.query(newLikeCountQuery, [
       Object.values(id)[0],
     ]);
 
@@ -103,7 +103,7 @@ class likesDatamapper extends coreDatamapper {
     //checkModelId
 
     const modelIdCheck = `SELECT * FROM "model" WHERE id = $1`;
-    const modelIdCheckResponse = await pool.query(modelIdCheck, [
+    const modelIdCheckResponse = await client.query(modelIdCheck, [
       Object.values(id)[0],
     ]);
 
@@ -112,7 +112,7 @@ class likesDatamapper extends coreDatamapper {
     }
 
     const likeCount = `SELECT COUNT(*) FROM ${this.constructor.tableName} WHERE model_id = $1`;
-    const likeCountResponse = await pool.query(likeCount, [
+    const likeCountResponse = await client.query(likeCount, [
       Object.values(id)[0],
     ]);
 

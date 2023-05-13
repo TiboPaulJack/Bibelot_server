@@ -1,6 +1,6 @@
 const CoreDatamapper = require("./coreDatamapper");
 const debug = require("debug")("3db: datamapper");
-const pool = require("../utils/clientConnect");
+const client = require("../utils/clientConnect");
 const NotFoundError = require("../utils/errorControl/notFoundError");
 
 /**
@@ -20,7 +20,7 @@ class UserDatamapper extends CoreDatamapper {
 
   async getProfilePicture(id) {
     const query = `SELECT "picture" FROM "user" WHERE "id" = $1`;
-    const response = await pool.query(query, [id]);
+    const response = await client.query(query, [id]);
 
     if (response.rowCount === 0) {
       return new NotFoundError("not found");
@@ -33,7 +33,7 @@ class UserDatamapper extends CoreDatamapper {
   async getUserModels(id) {
     
     const query = `SELECT model.data, model.picture FROM model WHERE model.user_id = $1`;
-    const response = await pool.query(query, [id]);
+    const response = await client.query(query, [id]);
     
    
       return response.rows;
@@ -50,7 +50,7 @@ class UserDatamapper extends CoreDatamapper {
   async getOne(id) {
     // first id check
     const idCheck = `SELECT "pseudo", "email", "firstname", "lastname", "picture" FROM "user" WHERE id = $1`;
-    const check = await pool.query(idCheck, [id]);
+    const check = await client.query(idCheck, [id]);
 
     if (check.rowCount === 0) {
       return new NotFoundError("user not found");
@@ -65,7 +65,7 @@ class UserDatamapper extends CoreDatamapper {
         GROUP BY model.id
         ORDER BY model.id;`;
 
-    const response = await pool.query(getUserModels, [id]);
+    const response = await client.query(getUserModels, [id]);
     const user = check.rows[0];
     const model = response.rows;
     return { user, model };
@@ -74,7 +74,7 @@ class UserDatamapper extends CoreDatamapper {
     
     const query = `SELECT "pseudo", "id" FROM "user" WHERE id = $1`;
     
-    const response = await pool.query(query, [id]);
+    const response = await client.query(query, [id]);
     
     return response.rows[0];
     
@@ -101,7 +101,7 @@ class UserDatamapper extends CoreDatamapper {
         WHERE id = $${values.length + 1}`;
 
 
-    const response = await pool.query(query, [...Object.values(data), id]);
+    const response = await client.query(query, [...Object.values(data), id]);
 
     return response.rows[0];
   }
