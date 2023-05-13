@@ -20,14 +20,7 @@ app.use(cors({
   credentials: true,
   methods: 'GET, POST, PATCH, DELETE',
   allowedHeaders: '*'
-
 }));
-
-app.use((err, req, res, next) => {
-  console.error(err);
-  res.status(500).send('Something went wrong!');
-});
-
 
 //helmet
 app.use(helmet());
@@ -42,15 +35,12 @@ app.use(bodyParser.json());
 
 app.use(router);
 
+// Middleware d'erreur
+app.use((err, req, res, next) => {
+  console.error(err);
+  res.status(500).send('Something went wrong!');
+});
+
 app.listen(port, () => {
   console.log(`Server ready: http://localhost:${port}`);
 });
-
-
-
-
-
-
-
-
-
