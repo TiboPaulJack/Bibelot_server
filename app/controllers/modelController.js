@@ -57,8 +57,6 @@ class modelController extends coreController {
 
     // Send all models to buffer
     for (const element of response) {
-      const picture = await sendPictureToBuffer(element.picture);
-
       const model = {
         id: element.id,
         name: element.name,
@@ -67,7 +65,6 @@ class modelController extends coreController {
         like: element.likes,
         liked: false,
         tags: element.tag,
-        picture,
       };
 
       if (likedModels) {
@@ -77,38 +74,10 @@ class modelController extends coreController {
           }
         });
       }
-
       allModels.push(model);
     }
 
     res.status(200).json(allModels);
-  }
-
-  /**
-   * @description - method for get one model glb data
-   * @method - getGlb
-   * @param {object} req - request
-   * @param {object} res - response
-   * @param {function} next - next middleware
-   * @returns {object} - return an object with getting model glb data
-   */
-  async getGlb(req, res, next) {
-    const response = await this.dataMapper.getOneModel(req.params.id);
-
-    if (response instanceof Error) {
-      return next(response);
-    }
-
-    const glb = fs.readFileSync(response.data);
-
-    const object = {
-      data: glb,
-    };
-
-    res.setHeader("Content-Type", "model/gltf+binary");
-
-    fs.writeFileSync("test.glb", object.data);
-    res.sendFile("test.glb", { root: __dirname + "/../../" });
   }
 
   /**
@@ -150,29 +119,11 @@ class modelController extends coreController {
    * @returns {object} - return an object with the model created
    */
   async create(req, res, next) {
-    /*// GET PATH OF THE MODEL AND THE PICTURE
-    const pathModel = req.files.data[0].path;
-    const pathPicture = req.files.picture[0].path;
-
-    // GET THE EXTENSION OF THE MODEL
-    req.body.format = req.files.data[0].mimetype;
-
-    // GET THE SIZE OF THE MODEL
-    req.body.size = req.files.data[0].size;
-
-    // ADD THE PATH OF THE MODEL AND THE PICTURE TO THE BODY
-    req.body.data = pathModel;
-    req.body.picture = pathPicture;*/
-
     req.body = { ...req.body, user_id: req.decodedId };
-
-    debug();
 
     const response = await this.dataMapper.create(req.body);
 
     if (response instanceof Error) {
-      deleteFile(pathModel);
-      deleteFile(pathPicture);
       return next(response);
     }
 
@@ -202,22 +153,6 @@ class modelController extends coreController {
    * @returns {object} - return an object with the model deleted
    */
   async delete(req, res, next) {
-    const id = req.params.id;
-
-    const findPath = await this.dataMapper.getAll({ id: id });
-
-    const modelPath = findPath[0].data;
-
-    const picturePath = findPath[0].picture;
-    debug(picturePath);
-
-    deleteFile(modelPath);
-    deleteFile(picturePath);
-
-    if (deleteFile instanceof Error) {
-      return next(Error);
-    }
-
     const response = await this.dataMapper.delete(req.params.id);
 
     res.status(204).json(response);
