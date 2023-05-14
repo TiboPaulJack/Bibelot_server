@@ -1,25 +1,22 @@
-const userDatamapper = require( "../../datamappers/userDatamapper" );
-const badInputError = require( "../errorControl/badInputError" );
-const debug = require( "debug" )( "3db:checkUserAvailability" );
+const userDatamapper = require("../../datamappers/userDatamapper");
+const badInputError = require("../errorControl/badInputError");
+const debug = require("debug")("3db:checkUserAvailability");
 
 async function checkAvailability(req, res, next) {
-  
-  debug("checkAvailability")
+  debug("checkAvailability");
   const { email, pseudo } = req.body;
-  
-  
-    const emailCheck = await userDatamapper.getAll({ email });
-    const pseudoCheck = await userDatamapper.getAll({ pseudo });
-    
-    if (emailCheck.length > 0) {
-      return new badInputError("Email already exist");
-    }
-    if (pseudoCheck.length > 0) {
-      return new badInputError("Pseudo already exist");
-    }
-    
-    next();
- 
-  
+
+  const emailCheck = await userDatamapper.getAll({ email });
+  const pseudoCheck = await userDatamapper.getAll({ pseudo });
+
+  if (emailCheck.length > 0) {
+    return new badInputError("Email already exist");
+  }
+  if (pseudoCheck.length > 0) {
+    return new badInputError("Pseudo already exist");
+  }
+
+  console.log("reqbody checkAvailability", req.body);
+  next();
 }
-return module.exports = checkAvailability;
+return (module.exports = checkAvailability);

@@ -24,15 +24,11 @@ const upload = require("../utils/middlewares/multerConfig")();
 const checkAvailability = require("../utils/middlewares/CheckUserAvailability");
 const tokenCheck = require("../utils/middlewares/tokenCheck");
 
-
-
 router.post(
   "/check",
   tokenCheck,
-  handlerController(userController.checkOrRenewToken.bind(userController)
-));
-
-
+  handlerController(userController.checkOrRenewToken.bind(userController))
+);
 
 /**
  * @description - route for add a user
@@ -82,18 +78,9 @@ router.post("/logout", tokenCheck, userController.logout.bind(userController));
  * @param {function} userController.getOne - controller for get one user
  * @returns {object} - return an object with the user getted
  */
-router.get(
-  "/info",
-  tokenCheck,
-  userController.getOne.bind(userController)
-);
+router.get("/info", tokenCheck, userController.getOne.bind(userController));
 
-router.get(
-  "/infoOnly",
-  tokenCheck,
-  userController.getOne.bind(userController)
-);
-
+router.get("/infoOnly", tokenCheck, userController.getOne.bind(userController));
 
 /**
  * @description - route for get all users
@@ -121,9 +108,6 @@ router.patch(
   "/update/",
   tokenCheck,
   checkAvailability,
-  upload.fields([
-    { name: "picture" },
-  ]),
   validator(schema.user_update),
   userController.update.bind(userController)
 );

@@ -42,10 +42,6 @@ const upload = multer({ storage: storage });
 router.post(
   "/add",
   tokenCheck,
-  upload.fields([
-    { name: "data", maxCount: 1 },
-    { name: "picture", maxCount: 1 },
-  ]),
   validator(schema.model_create),
   handlerController(modelController.create.bind(modelController))
 );

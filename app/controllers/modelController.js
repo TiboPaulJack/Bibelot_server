@@ -44,21 +44,20 @@ class modelController extends coreController {
     if (response instanceof Error) {
       throw response;
     }
-    
+
     let likedModels = [];
     const allModels = [];
-    
+
     // check if the user has liked models
-    if(req.decodedId){
+    if (req.decodedId) {
       const id = req.decodedId;
       const idliked = await likesDatamapper.checkIsLiked(id);
       likedModels = idliked.likedmodels;
     }
-    
+
     // Send all models to buffer
     for (const element of response) {
       const picture = await sendPictureToBuffer(element.picture);
-      
 
       const model = {
         id: element.id,
@@ -66,19 +65,19 @@ class modelController extends coreController {
         category: element.category,
         pseudo: element.pseudo,
         like: element.likes,
-        liked : false,
+        liked: false,
         tags: element.tag,
         picture,
       };
-      
-      if(likedModels) {
-        likedModels.forEach( ( id ) => {
+
+      if (likedModels) {
+        likedModels.forEach((id) => {
           if (id === element.id) {
-           model.liked = true;
+            model.liked = true;
           }
-        } );
+        });
       }
-      
+
       allModels.push(model);
     }
 
@@ -131,18 +130,15 @@ class modelController extends coreController {
 
     res.status(200).json(response);
   }
-  
+
   async search(req, res, next) {
-    
-    
     const data = Object.values(req.query).toString();
-    
+
     const response = await this.dataMapper.search(data);
-    
-    debug("res", response)
-    
+
+    debug("res", response);
+
     res.status(200).json(response);
-    
   }
 
   /**
@@ -154,7 +150,7 @@ class modelController extends coreController {
    * @returns {object} - return an object with the model created
    */
   async create(req, res, next) {
-    // GET PATH OF THE MODEL AND THE PICTURE
+    /*// GET PATH OF THE MODEL AND THE PICTURE
     const pathModel = req.files.data[0].path;
     const pathPicture = req.files.picture[0].path;
 
@@ -166,14 +162,14 @@ class modelController extends coreController {
 
     // ADD THE PATH OF THE MODEL AND THE PICTURE TO THE BODY
     req.body.data = pathModel;
-    req.body.picture = pathPicture;
+    req.body.picture = pathPicture;*/
 
     req.body = { ...req.body, user_id: req.decodedId };
-    
-    debug()
+
+    debug();
 
     const response = await this.dataMapper.create(req.body);
-    
+
     if (response instanceof Error) {
       deleteFile(pathModel);
       deleteFile(pathPicture);
