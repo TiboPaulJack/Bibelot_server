@@ -5,8 +5,7 @@ const debug = require("debug")("3db: userController");
 const signin = require("../utils/signin");
 sendPictureToBuffer = require("../utils/sendPictureToBuffer");
 const oldPictureDelete = require("../utils/oldPictureDelete");
-const deleteFile = require( "../utils/deleteModel" );
-
+const deleteFile = require("../utils/deleteModel");
 
 /**
  * @description - controller for user
@@ -49,14 +48,14 @@ class userController extends coreController {
 
     res.status(200).json(addedUser);
   }
-  
+
   async checkOrRenewToken(req, res, next) {
-    if(req.decodedId){
-      const id = req.decodedId
-      const user = await this.constructor.dataMapper.getInfo(id)
-      res.status(200).json({message: "token ok", user})
-    }else{
-      res.status(401).json({message: "token expired"})
+    if (req.decodedId) {
+      const id = req.decodedId;
+      const user = await this.constructor.dataMapper.getInfo(id);
+      res.status(200).json({ message: "token ok", user });
+    } else {
+      res.status(401).json({ message: "token expired" });
     }
   }
 
@@ -119,7 +118,7 @@ class userController extends coreController {
   }
 
   async getInfo(req, res, next) {
-    const id = req.decodedId
+    const id = req.decodedId;
     const response = await this.constructor.dataMapper.getInfo(id);
     if (response) {
       res.status(200).json(response);
@@ -134,52 +133,16 @@ class userController extends coreController {
    * @param {function} next - next middleware
    * @returns {object} - return an object with getting user
    */
-  async getOne(req, res, next,) {
-    
-    debug("getOne")
-    const id = req.decodedId
+  async getOne(req, res, next) {
+    const id = req.decodedId;
 
     const response = await this.constructor.dataMapper.getOne(id);
 
     if (response instanceof Error) {
       return next(response);
     }
-    
-    debug("debogage userpicture", response.user.picture)
 
-    const userBuffer = await sendPictureToBuffer(response.user.picture);
-
-    //we nedd to send picture buffer for all model of this user so we use a loop for do that
-    const allModel = [];
-
-    for (const element of response.model) {
-      const modelBuffer = await sendPictureToBuffer(element.picture);
-      const model = {
-        id: element.id,
-        name: element.name,
-        description: element.description,
-        format: element.format,
-        tag: element.tag,
-        created_at: element.created_at,
-        likes: element.nombre_de_like,
-        comments: element.Commentaires,
-        picture: modelBuffer,
-      };
-      allModel.push(model);
-    }
-
-    if (response) {
-      const userProfil = {
-        pseudo: response.user.pseudo,
-        email: response.user.email,
-        firstname: response.user.firstname,
-        lastname: response.user.lastname,
-        picture: userBuffer,
-      };
-
-      const completeUser = { userProfil, allModel };
-      res.status(200).json(completeUser);
-    }
+    res.status(200).json(response);
   }
 
   /**
@@ -191,41 +154,41 @@ class userController extends coreController {
    * @returns {object} - return an object with the user deleted
    */
   async delete(req, res, next) {
-    
-    if(+req.params.id !== req.decodedId){
-      debug("you are not the owner of this account")
-      return next(new Error("you are not the owner of this account")
-    )
+    if (+req.params.id !== req.decodedId) {
+      debug("you are not the owner of this account");
+      return next(new Error("you are not the owner of this account"));
     }
     // DB search for all models of this user
     // to find and delete glb and png files that are in the Uploads folder
-    const filesToDelete = await this.constructor.dataMapper.getUserModels(req.params.id);
-    
-    if(filesToDelete instanceof Error){
-      return next(filesToDelete)
+    const filesToDelete = await this.constructor.dataMapper.getUserModels(
+      req.params.id
+    );
+
+    if (filesToDelete instanceof Error) {
+      return next(filesToDelete);
     }
-    
+
     const response = await this.constructor.dataMapper.delete(req.params.id);
-    
-    if(response instanceof Error){
-      return next(response)
+
+    if (response instanceof Error) {
+      return next(response);
     }
-    
-    if(filesToDelete.length !== 0) {
+
+    if (filesToDelete.length !== 0) {
       const modelPath = filesToDelete[0].data;
       const picturePath = filesToDelete[0].picture;
-      
-      deleteFile( modelPath );
-      deleteFile( picturePath );
+
+      deleteFile(modelPath);
+      deleteFile(picturePath);
     }
     deleteFile(response.picture);
-    
+
     const deleteUser = {
       message: "User deleted",
       response,
     };
 
-      res.status(200).json(deleteUser);
+    res.status(200).json(deleteUser);
   }
 }
 

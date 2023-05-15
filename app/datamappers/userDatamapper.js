@@ -28,18 +28,12 @@ class UserDatamapper extends CoreDatamapper {
 
     return response.rows[0];
   }
-  
-  
+
   async getUserModels(id) {
-    
     const query = `SELECT model.data, model.picture FROM model WHERE model.user_id = $1`;
     const response = await pool.query(query, [id]);
-    
-   
-      return response.rows;
-    
-    
-    
+
+    return response.rows;
   }
   /**
    * @method getOne
@@ -49,7 +43,7 @@ class UserDatamapper extends CoreDatamapper {
    */
   async getOne(id) {
     // first id check
-    const idCheck = `SELECT "pseudo", "email", "firstname", "lastname", "picture" FROM "user" WHERE id = $1`;
+    const idCheck = `SELECT "id", "pseudo", "email", "firstname", "lastname", "picture" FROM "user" WHERE id = $1`;
     const check = await pool.query(idCheck, [id]);
 
     if (check.rowCount === 0) {
@@ -71,13 +65,11 @@ class UserDatamapper extends CoreDatamapper {
     return { user, model };
   }
   async getInfo(id) {
-    
     const query = `SELECT "pseudo", "id" FROM "user" WHERE id = $1`;
-    
+
     const response = await pool.query(query, [id]);
-    
+
     return response.rows[0];
-    
   }
   /**
    * @method update
@@ -99,7 +91,6 @@ class UserDatamapper extends CoreDatamapper {
         UPDATE "${this.constructor.tableName}"
         SET ${values.join(", ")}
         WHERE id = $${values.length + 1}`;
-
 
     const response = await pool.query(query, [...Object.values(data), id]);
 

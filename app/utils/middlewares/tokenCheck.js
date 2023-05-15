@@ -11,8 +11,7 @@ const jwt = require("jsonwebtoken");
  */
 const tokenCheck = async (req, res, next) => {
   const authHeader = req.headers.authorization;
-  
-  
+
   if (!authHeader) {
     const err = new tokenError("you need to be connected");
     return next(err);
@@ -32,8 +31,8 @@ const tokenCheck = async (req, res, next) => {
     }
   );
 
-  debug("DECODED", decoded)
-  
+  debug("DECODED", decoded);
+
   if (!decoded) {
     return new tokenError("invalid or expired token");
   }

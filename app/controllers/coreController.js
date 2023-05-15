@@ -43,7 +43,7 @@ class CoreController {
   async getOne(req, res, next) {
     const id = req.params.id;
 
-    const response = await this.constructor.dataMapper.getOne(id);
+    const response = await this.constructor.dataMapper.getOneModel(id);
 
     if (response instanceof Error) {
       return next(response);
@@ -87,23 +87,23 @@ class CoreController {
 
   async update(req, res, next) {
     const id = req.decodedId;
+    debug("body update user", req.body);
 
     // If the body is empty, returns an error
-    if (
-      Object.entries(req.body).length === 0 &&
-      req.files.picture === undefined
-    ) {
+    if (Object.entries(req.body).length === 0) {
       res.status(400).json({ message: "empty request - execution canceled" });
       return debug("empty request - execution canceled");
     }
-    
-    // Check if there is a picture in the request
+
+    /*// Check if there is a picture in the request
     // For delete the old picture and update the new one
     if (req.files.picture) {
       const OldPictureToDelete = await userDatamapper.getProfilePicture(id);
       await oldPictureDelete(OldPictureToDelete);
       req.body.picture = req.files.picture[0].path;
-    }
+    }*/
+
+    //todo : delete old picture in s3
 
     const response = await userDatamapper.update(req.decodedId, req.body);
 

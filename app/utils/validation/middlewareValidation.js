@@ -9,15 +9,6 @@ const debug = require("debug")("app:validation");
 function validation(schema) {
   return async (req, res, next) => {
     let data = req.body;
-
-    debug("req.files", req.files);
-    if (req.files && req.files.picture && req.files.picture.length !== {}) {
-      debug("je suis la");
-
-      picture = req.files.picture[0].path;
-      data = { ...req.body, picture };
-    }
-
     data = req.body;
 
     try {
