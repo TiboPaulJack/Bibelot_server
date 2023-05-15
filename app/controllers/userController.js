@@ -134,7 +134,6 @@ class userController extends coreController {
    * @returns {object} - return an object with getting user
    */
   async getOne(req, res, next) {
-    debug("getOne");
     const id = req.decodedId;
 
     const response = await this.constructor.dataMapper.getOne(id);
@@ -143,39 +142,6 @@ class userController extends coreController {
       return next(response);
     }
 
-    debug("debogage userpicture", response.user.picture);
-
-    /*const userBuffer = await sendPictureToBuffer(response.user.picture);
-
-    //we nedd to send picture buffer for all model of this user so we use a loop for do that
-    const allModel = [];
-
-    for (const element of response.model) {
-      const modelBuffer = await sendPictureToBuffer(element.picture);
-      const model = {
-        id: element.id,
-        name: element.name,
-        description: element.description,
-        format: element.format,
-        tag: element.tag,
-        created_at: element.created_at,
-        likes: element.nombre_de_like,
-        comments: element.Commentaires,
-        picture: modelBuffer,
-      };
-      allModel.push(model);
-    }
-
-    if (response) {
-      const userProfil = {
-        pseudo: response.user.pseudo,
-        email: response.user.email,
-        firstname: response.user.firstname,
-        lastname: response.user.lastname,
-        picture: userBuffer,
-      };
-
-      const completeUser = { userProfil, allModel };*/
     res.status(200).json(response);
   }
 
