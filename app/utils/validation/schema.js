@@ -29,13 +29,13 @@ const schema = {
 
   //TODO: TAG : STRING OR ARRAY ?
   model_create: Joi.object({
-    /*pathModel: Joi.string().required(),*/
+    data: Joi.string().required(),
     name: Joi.string().required(),
-    /*size: Joi.number(),*/
-    /*format: Joi.string(),*/
+    size: Joi.number(),
+    format: Joi.string(),
     download: Joi.boolean().required(),
     description: Joi.string().required(),
-    /*picture: Joi.string(),*/
+    picture: Joi.string(),
     tag: Joi.string().required(),
     user_id: Joi.number(),
     category_id: Joi.number(),

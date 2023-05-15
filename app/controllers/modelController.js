@@ -65,6 +65,7 @@ class modelController extends coreController {
         like: element.likes,
         liked: false,
         tags: element.tag,
+        picture: element.picture,
       };
 
       if (likedModels) {
@@ -120,6 +121,7 @@ class modelController extends coreController {
    */
   async create(req, res, next) {
     req.body = { ...req.body, user_id: req.decodedId };
+    console.log("req.body in model controller CREATE", req.body);
 
     const response = await this.dataMapper.create(req.body);
 

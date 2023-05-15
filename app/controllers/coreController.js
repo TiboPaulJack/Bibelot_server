@@ -43,7 +43,7 @@ class CoreController {
   async getOne(req, res, next) {
     const id = req.params.id;
 
-    const response = await this.constructor.dataMapper.getOne(id);
+    const response = await this.constructor.dataMapper.getOneModel(id);
 
     if (response instanceof Error) {
       return next(response);

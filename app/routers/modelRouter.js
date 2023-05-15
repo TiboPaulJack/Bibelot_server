@@ -66,19 +66,6 @@ router.get(
 );
 
 /**
- * @description - route for get a model glb data
- * @method - GET
- * @param {string} "/:id" - path for get a model glb data
- * @param {function} handlerController - middleware for handle the controller
- * @param {function} modelController.getGlb - controller for get a model glb data
- * @returns {object} - return an object with the model glb data
- */
-router.get(
-  "/glb/:id",
-  handlerController(modelController.getGlb.bind(modelController))
-);
-
-/**
  * @description - route for get a model data
  * @method - GET
  * @param {string} "/:id" - path for get a model data
@@ -88,7 +75,7 @@ router.get(
  */
 router.get(
   "/data/:id",
-  handlerController(modelController.getData.bind(modelController))
+  handlerController(modelController.getOne.bind(modelController))
 );
 
 /**
