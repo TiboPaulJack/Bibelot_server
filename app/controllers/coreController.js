@@ -1,6 +1,5 @@
 const debug = require("debug")("3db: CoreControllers");
 const userDatamapper = require("../datamappers/userDatamapper");
-const oldPictureDelete = require("../utils/oldPictureDelete");
 
 /**
  * @description - controller for core, basic CRUD class, all other controllers will inherit from this class

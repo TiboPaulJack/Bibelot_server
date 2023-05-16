@@ -2,8 +2,6 @@ const coreController = require("./coreController");
 const modelDatamapper = require("../datamappers/modelDatamapper");
 const debug = require("debug")("3db: modelController");
 const fs = require("fs");
-const sendPictureToBuffer = require("../utils/sendPictureToBufferMODEL");
-const deleteFile = require("../utils/deleteModel");
 const likesDatamapper = require("../datamappers/likesDatamapper");
 
 /**

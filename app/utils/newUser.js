@@ -4,7 +4,6 @@ const debug = require("debug")("3db: newUser");
 const badInputError = require("./errorControl/badInputError");
 const bcrypt = require("bcrypt");
 const sendMail = require("./nodemailer");
-const oldPictureDelete = require("./oldPictureDelete");
 
 /**
  * @description - function for create a new user
@@ -15,34 +14,28 @@ const oldPictureDelete = require("./oldPictureDelete");
  * @returns {object} - return an object with the user created
  */
 const add = async (req, res, next, body) => {
-  debug("newUser OK");
-  debug("data passée dans le newUser", body);
-  debug(body.picture);
-
   const { pseudo, email, password, firstname, lastname, picture } = body;
 
-  // Check if the user already exist
-  const Check = await userDatamapper.getAll({ email, pseudo });
-  debug("response", Check);
+  // CHECK IF THE EMAIL IS ALREADY USED
+  const emailCheck = await userDatamapper.getAll({ email });
 
-  //if the user avatar is default avatar we redefiene the picture path
-  let path = body.picture;
-
-  debug("path", path);
-
-  // if the user exist we send an error
-  if (Check.length > 0) {
-    //if user already exist we delete the picture path uploaded in the server
-    body.picture === "uploads/avatar/default.png"
-      ? oldPictureDelete(path)
-      : oldPictureDelete(req.files.picture[0].path);
-
-    //if the user already exist we return an error
-    const err = new badInputError("User already exist");
+  if (emailCheck.length > 0) {
+    // ERR IF THE EMAIL IS ALREADY USED
+    const err = new badInputError("This email is already used");
     next(err);
   }
-  // if the user doesn't exist we create it
-  // we hash the password
+
+  // CHECK IF THE PSEUDO IS ALREADY USED
+  const pseudoCheck = await userDatamapper.getAll({ pseudo });
+
+  if (pseudoCheck.length > 0) {
+    // ERR IF THE PSEUDO IS ALREADY USED
+    const err = new badInputError("This pseudo is already used");
+    next(err);
+  }
+
+  // IF EMAIL AND PSEUDO ARE NOT USED
+  // HASH THE PASSWORD
 
   const hashPassword = await bcrypt.hash(password, 10);
 
@@ -55,21 +48,13 @@ const add = async (req, res, next, body) => {
     picture,
   });
 
-  const newUser = {
+  return {
     pseudo: user.pseudo,
     email: user.email,
     firstname: user.firstname,
     lastname: user.lastname,
     picture: user.picture,
   };
-
-  debug(email);
-  /*sendMail(
-    `${email}`,
-    "nouvelle notification",
-    "FELICITATION !! Vous êtes inscrit !"
-  );*/
-  return newUser;
 };
 
 /**

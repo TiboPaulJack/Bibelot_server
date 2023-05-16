@@ -3,9 +3,6 @@ const userDatamapper = require("../datamappers/userDatamapper");
 const add = require("../utils/newUser");
 const debug = require("debug")("3db: userController");
 const signin = require("../utils/signin");
-sendPictureToBuffer = require("../utils/sendPictureToBuffer");
-const oldPictureDelete = require("../utils/oldPictureDelete");
-const deleteFile = require("../utils/deleteModel");
 
 /**
  * @description - controller for user
@@ -157,15 +154,6 @@ class userController extends coreController {
       debug("you are not the owner of this account");
       return next(new Error("you are not the owner of this account"));
     }
-    // DB search for all models of this user
-    // to find and delete glb and png files that are in the Uploads folder
-    const filesToDelete = await this.constructor.dataMapper.getUserModels(
-      req.params.id
-    );
-
-    if (filesToDelete instanceof Error) {
-      return next(filesToDelete);
-    }
 
     const response = await this.constructor.dataMapper.delete(req.params.id);
 
@@ -173,20 +161,10 @@ class userController extends coreController {
       return next(response);
     }
 
-    if (filesToDelete.length !== 0) {
-      const modelPath = filesToDelete[0].data;
-      const picturePath = filesToDelete[0].picture;
-
-      deleteFile(modelPath);
-      deleteFile(picturePath);
-    }
-    deleteFile(response.picture);
-
     const deleteUser = {
       message: "User deleted",
       response,
     };
-
     res.status(200).json(deleteUser);
   }
 }
