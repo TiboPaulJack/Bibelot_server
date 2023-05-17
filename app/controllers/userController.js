@@ -161,11 +161,7 @@ class userController extends coreController {
       return next(response);
     }
 
-    const deleteUser = {
-      message: "User deleted",
-      response,
-    };
-    res.status(200).json(deleteUser);
+    res.status(203);
   }
 }
 

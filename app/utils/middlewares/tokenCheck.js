@@ -31,15 +31,12 @@ const tokenCheck = async (req, res, next) => {
     }
   );
 
-  debug("DECODED", decoded);
-
   if (!decoded) {
     return new tokenError("invalid or expired token");
   }
 
   req.decodedId = decoded.id;
 
-  debug("TOKEN-CHECK PASSED");
   next();
 };
 
