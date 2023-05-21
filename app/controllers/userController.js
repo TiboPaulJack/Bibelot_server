@@ -160,8 +160,8 @@ class userController extends coreController {
     if (response instanceof Error) {
       return next(response);
     }
-
-    res.status(203);
+    
+    res.status(203).json({});
   }
 }
 
