@@ -30,7 +30,7 @@ class userController extends coreController {
   async create(req, res, next) {
     debug(req.files.picture);
 
-    let picture = "uploads/avatar/default.png";
+    let picture = "defaultAvatar.png";
 
     if (req.files && req.files.picture) {
       picture = req.files.picture[0].path;

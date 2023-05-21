@@ -36,7 +36,6 @@ const tokenCheck = async (req, res, next) => {
   }
 
   req.decodedId = decoded.id;
-
   next();
 };
 
